@@ -5,20 +5,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepo;
 
 
 
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class UserService implements UserDetailsService {
     private UserRepo userRepo;
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo) {
+    public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
-
+    @Transactional
     public User findUsersByEmail(String email) {
         return userRepo.findUsersByEmail(email);
     }
@@ -31,4 +32,6 @@ public class UserServiceImpl implements UserDetailsService {
         }
         return user;
     }
+
+
 }

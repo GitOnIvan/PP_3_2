@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
+import ru.kata.spring.boot_security.demo.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -20,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     public WebSecurityConfig(PasswordConfig passwordConfig, SuccessUserHandler successUserHandler) {
