@@ -3,8 +3,12 @@ package ru.kata.spring.boot_security.demo.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.EnumSet;
 
 
 @Data
@@ -12,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -43,4 +47,41 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
     private Status status;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        EnumSet<Role> roles = EnumSet.allOf(role.getDeclaringClass());
+        return roles;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return status.equals(Status.ACTIVE);
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return status.equals(Status.ACTIVE);
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return status.equals(Status.ACTIVE);
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return status.equals(Status.ACTIVE);
+    }
 }
