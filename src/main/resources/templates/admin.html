@@ -1,14 +1,116 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel</title>
+    <title>Users</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+
+
+        .my-top-block {
+            margin: 0;
+            padding: 0;
+            height: 50px;
+            background-color: #2c2c2c;
+        }
+
+        .my-table-block {
+            margin: 0 3% 0 3%;
+        }
+    </style>
+
 </head>
 <body>
-<h1>Admin, welcome spring boot security page!</h1>
+<div class="my-top-block"><a href="/logout">Logout</a></div>
+<div class="my-table-block">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Sex</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Status</th>
 
-<a href="/logout"><h1>Logout</h1></a>
+
+
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ms : ${userList}">
+
+            <td th:text="${ms.getId()}"/>
+            <td th:text="${ms.getFirstName()}"/>
+            <td th:text="${ms.getLastName()}"/>
+            <td th:text="${ms.getAge()}"/>
+            <td th:text="${ms.getSex()}"/>
+            <td th:text="${ms.getEmail()}"/>
+            <td th:text="${ms.getRole()}"/>
+            <td th:text="${ms.getStatus()}"/>
+
+            </td>
+
+
+
+
+
+        </tr>
+        </tbody>
+    </table>
+
+
+
+        <style>
+            .my-link-button{text-decoration: none;color: #000;}
+            .my-link-button:link {color: #000;}
+            .my-link-button:visited {color: #000;}
+            .my-link-button:focus {color: #000;}
+            .my-link-button:hover {color: #fff;}
+            .my-link-button:active {color: #fff;}
+            .my-link {
+                border: none;
+                background: none;
+                padding: 0;
+                margin: 0;
+                display: inline;
+                font-size: inherit;
+                font-family: inherit;
+                text-decoration: none;
+                cursor: pointer;
+
+            }
+            .my-link:link {color: #000;}
+            .my-link:visited {color: #000;}
+            .my-link:focus {color: #000;}
+            .my-link:hover {color: #32CD32; font-weight: bold}
+            .my-link:active {color: #32CD32;}
+            .my-button {
+
+                border: none;
+                background: none;
+                padding: 0;
+                margin: 0;
+                display: inline;
+                font-size: inherit;
+                font-family: inherit;
+                text-decoration: none;
+                cursor: pointer;
+            }
+            .my-button:hover { color: 		#8B0000; font-weight: bold}
+
+            form {
+                display: inline;
+            }
+        </style>
+
+    </button>
+</div>
+
+
 </body>
 </html>

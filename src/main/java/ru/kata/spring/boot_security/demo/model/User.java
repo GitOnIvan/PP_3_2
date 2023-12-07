@@ -90,6 +90,16 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return status.equals(Status.ACTIVE);
     }
+
+    public User(long id, String firstName, String lastName, int age, String sex, String email, Role role) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.sex = sex;
+        this.email = email;
+        this.role = role;
+    }
 }
 
 

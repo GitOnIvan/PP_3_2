@@ -31,5 +31,11 @@ public class UserController {
         return "user";
     }
 
+    @GetMapping("/admin")
+    public String getUsersList(ModelMap model) {
+        model.addAttribute("userList", userService.getUsersByEmailNotNull());
+        return "admin";
+    }
+
 
 }

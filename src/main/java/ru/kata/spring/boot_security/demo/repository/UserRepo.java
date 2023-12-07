@@ -11,4 +11,6 @@ public interface UserRepo extends JpaRepository<User, Long> {
     User findUsersByEmail(String email);
 
     List<User> getUsersByEmailNotNull();
+
+
 }
