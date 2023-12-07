@@ -58,7 +58,7 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         EnumSet<Role> roles = EnumSet.of(getRole());
 
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.name())).collect(Collectors.toList());
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.name())).collect(Collectors.toSet());
     }
 
     @Override

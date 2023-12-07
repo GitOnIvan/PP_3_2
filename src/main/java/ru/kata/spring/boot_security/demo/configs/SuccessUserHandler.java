@@ -18,13 +18,8 @@ public class SuccessUserHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
-        for(String str: roles) {
-            System.out.println(str);
-            System.out.println("ADMIN" == str);
-        }
 
-
-        if (roles.stream().findAny().equals("ADMIN")) {
+        if (roles.contains("ADMIN")) {
 
             httpServletResponse.sendRedirect("/admin");
 
