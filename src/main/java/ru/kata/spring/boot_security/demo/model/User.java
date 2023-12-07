@@ -1,26 +1,31 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    long id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -38,31 +43,32 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "password")
-    private String password;
+    private String pass;
 
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "role")
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
+    @Enumerated(value = EnumType.STRING)
     private Status status;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        EnumSet<Role> roles = EnumSet.allOf(role.getDeclaringClass());
-        return roles;
+        EnumSet<Role> roles = EnumSet.of(getRole());
+
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.name())).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return pass;
     }
 
     @Override
     public String getUsername() {
         return email;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
     }
 
     @Override
@@ -85,3 +91,5 @@ public class User implements UserDetails {
         return status.equals(Status.ACTIVE);
     }
 }
+
+
