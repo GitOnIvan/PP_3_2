@@ -63,6 +63,8 @@
         .my-link-button:active {color: #fff;}
 
 
+
+            mroot
     </style>
 
 </head>
@@ -110,34 +112,54 @@
 
 
 
-        <style>
-
-            .my-link:link {color: #000;}
-            .my-link:visited {color: #000;}
-            .my-link:focus {color: #000;}
-            .my-link:hover {color: #32CD32; font-weight: bold}
-            .my-link:active {color: #32CD32;}
-            .my-button {
-
-                border: none;
-                background: none;
-                padding: 0;
-                margin: 0;
-                display: inline;
-                font-size: inherit;
-                font-family: inherit;
-                text-decoration: none;
-                cursor: pointer;
-            }
-            .my-button:hover { color: 		#8B0000; font-weight: bold}
-
-            form {
-                display: inline;
-            }
-        </style>
-
-    </button>
 </div>
+
+
+<div class="my-table-block">
+    <form th:method="post" th:action="@{/admin}" th:object="${newUser}" >
+
+        <label for="name" >Enter name: </label>
+        <input type="text" th:field="*{firstName}" id="name"/>
+        <br/>
+        <br/>
+        <label for="name">Enter lastname: </label>
+        <input type="text" th:field="*{lastName}" id="lastname"/>
+        <br/>
+        <br/>
+        <label for="name">Enter your age: </label>
+        <input type="text" th:field="*{age}" id="age"/>
+        <br/>
+        <br/>
+        <label for="name">Enter your sex: </label>
+        <input type="text" th:field="*{sex}" id="sex"/>
+        <br/>
+        <br/>
+        <label for="name">Enter your email: </label>
+        <input type="text" th:field="*{email}" id="email"/>
+        <br/>
+        <br/>
+        <label for="name">Enter your password: </label>
+        <input type="text" th:field="*{pass}" id="pass"/>
+        <br/>
+        <br/>
+        <label for="name">Enter your role: </label>
+        <input type="text" th:field="*{role}" id="role"/>
+        <br/>
+        <br/>
+        <label for="name">Enter your status: </label>
+        <input type="text" th:field="*{status}" id="status"/>
+        <br/>
+        <br/>
+        <input type="submit" value="Create!"/>
+    </form>
+
+
+
+
+
+
+</div>
+
 
 
 </body>
