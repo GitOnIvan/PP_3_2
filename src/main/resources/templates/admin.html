@@ -20,6 +20,26 @@
             margin: 0 3% 0 3%;
         }
 
+        .my-form-block {
+            margin: 0 0 0 3%;
+            padding: 0;
+            border: solid red 1px;
+
+            min-width: 500px;
+            width: 5%;
+            float: left;
+        }
+
+        .my-form-block-two {
+
+            border: solid red 1px;
+            padding: 0;
+
+            min-width: 500px;
+            width: 5%;
+            float: left;
+        }
+
         .float-block {
             width: 95%;
             height: 50px;
@@ -64,7 +84,7 @@
 
 
 
-            mroot
+
     </style>
 
 </head>
@@ -82,6 +102,8 @@
             <th scope="col">Email</th>
             <th scope="col">Role</th>
             <th scope="col">Status</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
 
 
 
@@ -99,8 +121,9 @@
             <td th:text="${ms.getEmail()}"/>
             <td th:text="${ms.getRole()}"/>
             <td th:text="${ms.getStatus()}"/>
+            <td><a th:href="@{/admin(id=${ms.getId()})}"  class="my-link">Edit</a> </td>
 
-            </td>
+
 
 
 
@@ -115,43 +138,107 @@
 </div>
 
 
-<div class="my-table-block">
+<div class="my-form-block">
     <form th:method="post" th:action="@{/admin}" th:object="${newUser}" >
 
-        <label for="name" >Enter name: </label>
-        <input type="text" th:field="*{firstName}" id="name"/>
+        <label for="first_name" >Enter name: </label>
+        <input type="text" th:field="*{firstName}" id="first_name"/>
         <br/>
         <br/>
-        <label for="name">Enter lastname: </label>
-        <input type="text" th:field="*{lastName}" id="lastname"/>
+        <label for="last_name">Enter lastname: </label>
+        <input type="text" th:field="*{lastName}" id="last_name"/>
         <br/>
         <br/>
-        <label for="name">Enter your age: </label>
+        <label for="age">Enter your age: </label>
         <input type="text" th:field="*{age}" id="age"/>
         <br/>
         <br/>
-        <label for="name">Enter your sex: </label>
-        <input type="text" th:field="*{sex}" id="sex"/>
+        <label for="sex">Choose User's gender  </label>
+        <select th:field="*{sex}" id="sex">
+            <option th:value="'M'" th:text="Male"></option>
+            <option th:value="'F'" th:text="Female"></option>
+        </select>
         <br/>
         <br/>
-        <label for="name">Enter your email: </label>
+        <label for="email">Enter your email: </label>
         <input type="text" th:field="*{email}" id="email"/>
         <br/>
         <br/>
-        <label for="name">Enter your password: </label>
+        <label for="pass">Enter your password: </label>
         <input type="text" th:field="*{pass}" id="pass"/>
         <br/>
         <br/>
-        <label for="name">Enter your role: </label>
-        <input type="text" th:field="*{role}" id="role"/>
+        <label for="role">Choose User's role </label>
+        <select th:field="*{role}" id="role">
+            <option th:value="'ADMIN'" th:text="ADMIN"></option>
+            <option th:value="'USER'" th:text="USER"></option>
+        </select>
         <br/>
         <br/>
-        <label for="name">Enter your status: </label>
-        <input type="text" th:field="*{status}" id="status"/>
+        <label for="status">Choose User's status </label>
+        <select th:field="*{status}" id="status">
+            <option th:value="'ACTIVE'" th:text="ACTIVE"></option>
+            <option th:value="'BANNED'" th:text="BANNED"></option>
+        </select>
         <br/>
         <br/>
         <input type="submit" value="Create!"/>
     </form>
+</div>
+
+<div class="my-form-block-two">
+    <form th:method="post" th:action="@{/admin(id=${userUpdate.getId()})}" th:object="${userUpdate}" >
+
+        <label for="first_name_e" >Enter name: </label>
+        <input type="text" th:field="*{firstName}" id="first_name_e"/>
+        <br/>
+        <br/>
+        <label for="last_name_e">Enter lastname: </label>
+        <input type="text" th:field="*{lastName}" id="last_name_e" />
+        <br/>
+        <br/>
+        <label for="age_e">Enter your age: </label>
+        <input type="text" th:field="*{age}" id="age_e"/>
+        <br/>
+        <br/>
+        <label for="sex_e">Choose User's gender  </label>
+        <select th:field="*{sex}" id="sex_e">
+            <option th:value="'M'" th:text="Male"></option>
+            <option th:value="'F'" th:text="Female"></option>
+        </select>
+        <br/>
+        <br/>
+        <label for="email_e">Enter your email: </label>
+        <input type="text" th:field="*{email}" id="email_e"/>
+        <br/>
+        <br/>
+        <label for="pass_e">Enter your password: </label>
+        <input  type="text" th:field="*{pass}" th:value="${userUpdate.setPass('*****')}" id="pass_e"/>
+        <br/>
+        <br/>
+        <label for="role_e">Choose User's role </label>
+        <select th:field="*{role}" id="role_e">
+            <option th:value="'ADMIN'" th:text="ADMIN"></option>
+            <option th:value="'USER'" th:text="USER"></option>
+        </select>
+        <br/>
+        <br/>
+        <label for="status_e">Choose User's status </label>
+        <select th:field="*{status}" id="status_e">
+            <option th:value="'ACTIVE'" th:text="ACTIVE"></option>
+            <option th:value="'BANNED'" th:text="BANNED"></option>
+        </select>
+        <br/>
+        <br/>
+        <input type="submit" value="Edit!"/>
+
+
+    </form>
+
+</div>
+
+
+
 
 
 
@@ -159,6 +246,8 @@
 
 
 </div>
+
+
 
 
 
