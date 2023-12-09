@@ -122,6 +122,8 @@
             <td th:text="${ms.getRole()}"/>
             <td th:text="${ms.getStatus()}"/>
             <td><a th:href="@{/admin(id=${ms.getId()})}"  class="my-link">Edit</a> </td>
+            <td><a th:href="@{/admin(id=${ms.getId()})}"  class="my-link">Delete</a> </td>
+
 
 
 
@@ -231,6 +233,61 @@
         <br/>
         <br/>
         <input type="submit" value="Edit!"/>
+
+
+    </form>
+
+
+
+
+</div>
+
+
+<div class="my-form-block-two">
+    <form th:method="post" th:action="@{/admin/delete(id=${userUpdate.getId()})}" th:object="${userUpdate}" >
+
+        <label for="first_name_ee" >Enter name: </label>
+        <input type="text" th:field="*{firstName}" id="first_name_ee" disabled/>
+        <br/>
+        <br/>
+        <label for="last_name_ee">Enter lastname: </label>
+        <input type="text" th:field="*{lastName}" id="last_name_ee" disabled/>
+        <br/>
+        <br/>
+        <label for="age_ee">Enter your age: </label>
+        <input type="text" th:field="*{age}" id="age_ee" disabled/>
+        <br/>
+        <br/>
+        <label for="sex_ee">Choose User's gender  </label>
+        <select th:field="*{sex}" id="sex_ee" disabled>
+            <option th:value="'M'" th:text="Male"></option>
+            <option th:value="'F'" th:text="Female"></option>
+        </select>
+        <br/>
+        <br/>
+        <label for="email_ee">Enter your email: </label>
+        <input type="text" th:field="*{email}" id="email_ee" disabled/>
+        <br/>
+        <br/>
+        <label for="pass_ee">Enter your password: </label>
+        <input  type="text" th:field="*{pass}" th:value="${userUpdate.setPass('*****')}" id="pass_ee" disabled/>
+        <br/>
+        <br/>
+        <label for="role_ee">Choose User's role </label>
+        <select th:field="*{role}" id="role_ee" disabled>
+            <option th:value="'ADMIN'" th:text="ADMIN"></option>
+            <option th:value="'USER'" th:text="USER"></option>
+        </select>
+        <br/>
+        <br/>
+        <label for="status_ee">Choose User's status </label>
+        <select th:field="*{status}" id="status_ee" disabled>
+            <option th:value="'ACTIVE'" th:text="ACTIVE"></option>
+            <option th:value="'BANNED'" th:text="BANNED"></option>
+        </select>
+        <br/>
+        <br/>
+        <input type="submit" value="Delete!"/>
 
 
     </form>

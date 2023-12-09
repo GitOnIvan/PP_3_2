@@ -107,5 +107,9 @@ public class UserService implements UserDetailsService {
 
 
     }
+    @Transactional
+    public void deleteById(Long id) {
+        userRepo.deleteById(id);
+    }
 
 }
