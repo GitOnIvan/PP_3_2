@@ -22,48 +22,48 @@ public class UserController {
     }
 
 
-    @GetMapping("/user")
+    @GetMapping("/usr")
     public String getUser(Principal principal, Model model) {
         User user = userService.findUsersByEmail(principal.getName());
         model.addAttribute("userSolo", user);
-        return "user";
+        return "usr";
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/adn")
     public String getUsersList(@RequestParam(value = "id", required = false, defaultValue = "1") Long id, ModelMap model) {
         model.addAttribute("userList", userService.findAll());
         model.addAttribute("userUpdate", userService.findUsersById(id));
 
-        return "admin";
+        return "adn";
     }
 
 
-    @PostMapping(value = "/admin", params = { "id" })
+    @PostMapping(value = "/adn", params = { "id" })
     public String upDate(@ModelAttribute("userUpdate") User updateUser,
                          @RequestParam(value = "id", required = false) Long id) {
 
 
         userService.updateUser(id, updateUser);
-        return "redirect:/admin";
+        return "redirect:/adn";
 
     }
 
 
-    @PostMapping("/admin")
+    @PostMapping("/adn")
     public String createUser(@ModelAttribute("newUser") User addUser) {
 
         userService.addNewUser(addUser);
 
 
-        return "redirect:/admin";
+        return "redirect:/adn";
     }
 
 
-    @PostMapping("/admin/delete")
+    @PostMapping("/adn/delete")
     public String deleteUser(@RequestParam(value = "id") Long id) {
         userService.deleteById(id);
 
-        return "redirect:/admin";
+        return "redirect:/adn";
     }
 
 

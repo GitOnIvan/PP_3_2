@@ -121,8 +121,8 @@
             <td th:text="${ms.getEmail()}"/>
             <td th:text="${ms.getRole()}"/>
             <td th:text="${ms.getStatus()}"/>
-            <td><a th:href="@{/admin(id=${ms.getId()})}"  class="my-link">Edit</a> </td>
-            <td><a th:href="@{/admin(id=${ms.getId()})}"  class="my-link">Delete</a> </td>
+            <td><a th:href="@{/adn(id=${ms.getId()})}"  class="my-link">Edit</a> </td>
+            <td><a th:href="@{/adn(id=${ms.getId()})}"  class="my-link">Delete</a> </td>
 
 
 
@@ -141,7 +141,7 @@
 
 
 <div class="my-form-block">
-    <form th:method="post" th:action="@{/admin}" th:object="${newUser}" >
+    <form th:method="post" th:action="@{/adn}" th:object="${newUser}" >
 
         <label for="first_name" >Enter name: </label>
         <input type="text" th:field="*{firstName}" id="first_name"/>
@@ -189,7 +189,7 @@
 </div>
 
 <div class="my-form-block-two">
-    <form th:method="post" th:action="@{/admin(id=${userUpdate.getId()})}" th:object="${userUpdate}" >
+    <form th:method="post" th:action="@{/adn(id=${userUpdate.getId()})}" th:object="${userUpdate}" >
 
         <label for="first_name_e" >Enter name: </label>
         <input type="text" th:field="*{firstName}" id="first_name_e"/>
@@ -244,7 +244,7 @@
 
 
 <div class="my-form-block-two">
-    <form th:method="post" th:action="@{/admin/delete(id=${userUpdate.getId()})}" th:object="${userUpdate}" >
+    <form th:method="post" th:action="@{/adn/delete(id=${userUpdate.getId()})}" th:object="${userUpdate}" >
 
         <label for="first_name_ee" >Enter name: </label>
         <input type="text" th:field="*{firstName}" id="first_name_ee" disabled/>
