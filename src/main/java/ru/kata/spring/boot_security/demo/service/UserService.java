@@ -1,76 +1,109 @@
 package ru.kata.spring.boot_security.demo.service;
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.kata.spring.boot_security.demo.model.Role;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
+import ru.kata.spring.boot_security.demo.repository.RoleRepo;
+import ru.kata.spring.boot_security.demo.repository.UserRepo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @Service
 public class UserService implements UserDetailsService {
+
     @PersistenceContext
     private EntityManager em;
+    private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
+
+
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    public UserService(UserRepo userRepo, RoleRepo roleRepo, PasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.roleRepo = roleRepo;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = findUserByEmail(email);
+        if(user == null) {
+            throw new UsernameNotFoundException(String.format("User with '%s' not found", email));
         }
-
         return user;
     }
 
-    public User findUserById(Long userId) {
-        Optional<User> userFromDb = userRepository.findById(userId);
-        return userFromDb.orElse(new User());
+
+    @Transactional
+    public User findUserByEmail(String email) {
+        return userRepo.findUserByEmail(email);
     }
 
-    public List<User> allUsers() {
-        return userRepository.findAll();
+
+    @Transactional
+    public User findUsersById (Long id) {
+        return userRepo.findUsersById(id);
     }
 
-    public boolean saveUser(User user) {
-        User userFromDB = userRepository.findByUsername(user.getUsername());
 
-        if (userFromDB != null) {
+    @Transactional
+    public List<User> findAllUsers(){
+       return userRepo.findAll()
+                .stream()
+                .sorted(Comparator.comparing(User::getId))
+                .distinct()
+                .collect(Collectors.toList());
+
+
+    }
+
+    @Transactional
+    public boolean addNewUser (User user) {
+        User userDB = userRepo.findUserByEmail(user.getEmail());
+        if (userDB == null) {
+            user.setPass(passwordEncoder.encode(user.getPass()));
+            em.persist(user);
+            return true;
+        } else {
             return false;
         }
-
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return true;
     }
 
-    public boolean deleteUser(Long userId) {
-        if (userRepository.findById(userId).isPresent()) {
-            userRepository.deleteById(userId);
-            return true;
-        }
-        return false;
+
+
+
+    @Transactional
+    public void updateUser(long id, User updatedUser) {
+        User userToBeUpdate = findUsersById(id);
+
+        userToBeUpdate.setFirstName(updatedUser.getFirstName());
+        userToBeUpdate.setLastName(updatedUser.getLastName());
+        userToBeUpdate.setAge(updatedUser.getAge());
+        userToBeUpdate.setGender(updatedUser.getGender());
+        userToBeUpdate.setEmail(updatedUser.getEmail());
+        userToBeUpdate.setPass(passwordEncoder.encode(updatedUser.getPass()));
+        userToBeUpdate.setRole(updatedUser.getRole());
+        userToBeUpdate.setStatus(updatedUser.getStatus());
+
+
+    }
+    @Transactional
+    public void deleteById(Long id) {
+        userRepo.deleteById(id);
     }
 
-    public List<User> usergtList(Long idMin) {
-        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
-                .setParameter("paramId", idMin).getResultList();
-    }
 }

@@ -1,10 +1,337 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Panel</title>
+    <link href="../static/css/main.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
 </head>
+
 <body>
-<h1>Admin, welcome spring boot security page!</h1>
+<div class="container-fluid m-0">
+    <div class="row align-middle block-height ">
+        <div class="col d-flex align-items-center div-text" >
+           <span th:text="${loggedUser.name}" class="span-roles"></span> &nbsp; with roles: &nbsp;
+            <span th:each="auth, status : ${loggedUser.authorities}">
+                <span th:text="${#strings.substringAfter(auth, '_')}" class="span-roles"></span>
+                <span th:unless="${status.last}">&nbsp;</span>
+            </span>
+        </div>
+        <div class="col text-center d-flex align-items-center">
+        </div>
+        <div class="col d-flex align-items-center text-end">
+            <div class="ms-auto"><a href="/logout" class="logout-link">Logout</a></div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid m-0">
+    <div class="row align-middle block-content-height">
+        <div class="col-2 ">
+            <div class="ul-roles-list">
+                <ul class="list-unstyled">
+                    <li th:each="auth : ${loggedUser.authorities}" class="li-left-col"
+                        th:class="${#strings.toLowerCase(#strings.substringAfter(auth, '_')) == 'admin' ? 'active' : 'none'}">
+                        <a class="li-a-left-col" th:href="@{'/' + ${#strings.toLowerCase(#strings.substringAfter(auth, '_'))}}"
+                           th:text="${#strings.substringAfter(auth, '_')}"></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-10 ">
+            <div class="admin-panel-text">Admin Panel</div>
+            <div class="users-ul black-div-text">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="tab1" data-bs-toggle="tab" href="#content1">Users table</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="tab2" data-bs-toggle="tab" href="#content2">Add new User</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane fade show active overflow-auto admin-table-block" id="content1">
+                    <div class="user-panel-text"> All users</div>
+                    <div class="table-responsive user-table-div">
+                        <table class="table table-hover">
+                            <thead class="black-div-text">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Sex</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
+
+                            </tr>
+                            </thead>
+                            <tbody class="black-div-text">
+                            <tr th:each=" usr : ${loggedUserDetails}">
+
+                                <td th:text="${usr.id}">id</td>
+                                <td th:text="${usr.firstName}">name</td>
+                                <td th:text="${usr.lastName}">surname</td>
+                                <td th:text="${usr.age}">age</td>
+                                <td th:text="${usr.gender}">gender</td>
+                                <td th:text="${usr.email}">email</td>
+                                <td>
+                                    <span th:each=" roles, status : ${usr.role}">
+                                    <span th:text="${#strings.substringAfter(roles.name, '_')}"></span>
+                                    <span th:unless="${status.last}">&nbsp;</span>
+                                    </span>
+                                </td>
+                                <td th:text="${usr.status}">status</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-success"
+                                            data-bs-toggle="modal" data-bs-target="#editModal"
+                                            th:data-bs-id="${usr.id}">
+                                        Edit
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-danger"
+                                            data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                            th:data-bs-id="${usr.id}">Delete
+                                    </button>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade overflow-auto" id="content2">
+                    <form th:method="post" th:action="@{/admin}" th:object="${newUser}">
+                        <div class="div-add-user" >
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="userNameA" placeholder="First Name" th:field="*{firstName}">
+                                <label for="userNameA">First Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="userSurnameA" placeholder="Last Name" th:field="*{lastName}">
+                                <label for="userSurnameA">Last Name</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="emailA" placeholder="Email" th:field="*{email}">
+                                <label for="emailA">Email</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="PasswordA" placeholder="Password" th:field="*{pass}">
+                                <label for="PasswordA">Password</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="number" class="form-control" id="userAgeA" placeholder="Age" th:field="*{age}">
+                                <label for="userAgeA">Age</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="SexA" aria-label="Sex" th:field="*{gender}">
+                                    <option value="" disabled selected>Choose User's gender</option>
+                                    <option th:value="F" value="F">Female</option>
+                                    <option th:value="M" value="F">Male</option>
+                                </select>
+                                <label for="SexA">Sex</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="StatusA" aria-label="Status" th:field="*{status}">
+                                    <option value="" disabled selected>Choose User's Status</option>
+                                    <option th:value="BANNED" value="BANNED">ACTIVE</option>
+                                    <option th:value="ACTIVE" value="ACTIVE">BANNED</option>
+                                </select>
+                                <label for="StatusA">Status</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <select class="form-select" multiple id="userRoleA" size="3" th:field="*{role}">
+                                    <option value="" disabled selected>Choose User's Roles</option>
+                                    <option  value="ROLE_ADMIN">ADMIN</option>
+                                    <option  value="ROLE_USER">USER</option>
+                                </select>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-outline-primary">Add user</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="userIdEdit" placeholder="userID" disabled>
+                        <label for="userIdEdit">ID</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="userNameEdit" placeholder="userName">
+                        <label for="userNameEdit">First Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="userSurnameEdit" placeholder="userSurname">
+                        <label for="userSurnameEdit">Last Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="emailEdit" placeholder="name@mail.com">
+                        <label for="emailEdit">Email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="PasswordEdit" placeholder="password">
+                        <label for="PasswordEdit">Password</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="userAgeEdit" placeholder="userAge">
+                        <label for="userAgeEdit">Age</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="SexEdit" aria-label="Sex">
+                            <option value="" selected disabled>Choose User's gender</option>
+                            <option value="F">Female</option>
+                            <option value="M">Male</option>
+                        </select>
+                        <label for="SexEdit">Sex</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="StatusEdit" aria-label="Status">
+                            <option value="" selected disabled>Choose User's Status</option>
+                            <option value="BANNED">ACTIVE</option>
+                            <option value="ACTIVE">BANNED</option>
+                        </select>
+                        <label for="StatusEdit">Status</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select class="form-select" multiple id="userRole" size="2">
+                            <option value="" selected disabled>Choose User's Role</option>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-success">Edit user</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <form>
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="userIdDelete" placeholder="userID" disabled>
+                        <label for="userIdDelete">ID</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="userNameDelete" placeholder="userName">
+                        <label for="userNameDelete">First Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="userSurnameDelete" placeholder="userSurname">
+                        <label for="userSurnameDelete">Last Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="emailDelete" placeholder="name@mail.com">
+                        <label for="emailDelete">Email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="PasswordDelete" placeholder="password">
+                        <label for="PasswordDelete">Password</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="userAgeDelete" placeholder="userAge">
+                        <label for="userAgeDelete">Age</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="SexDelete" aria-label="Sex">
+                            <option value="" selected disabled>Choose User's gender</option>
+                            <option value="F">Female</option>
+                            <option value="M">Male</option>
+                        </select>
+                        <label for="SexDelete">Sex</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="StatusDelete" aria-label="Status">
+                            <option value="" selected disabled>Choose User's Status</option>
+                            <option value="BANNED">ACTIVE</option>
+                            <option value="ACTIVE">BANNED</option>
+                        </select>
+                        <label for="StatusDelete">Status</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select class="form-select" multiple id="userRoleDelete" size="2">
+                            <option value="" selected disabled>Choose User's Role</option>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="USER">USER</option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-outline-danger">Delete user</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous">
+
+</script>
+
+<script>
+
+</script>
+
+
 </body>
 </html>

@@ -1,11 +1,108 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Page</title>
+    <link href="../static/css/main.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
 </head>
+
 <body>
-<h1>User, welcome spring boot security page!</h1>
+<div class="container-fluid m-0">
+    <div class="row align-middle block-height ">
+        <div class="col d-flex align-items-center div-text">
+            <span th:text="${loggedUser.name}" class="span-roles"></span> &nbsp; with roles: &nbsp;
+            <span th:each="auth, status : ${loggedUser.authorities}">
+                <span th:text="${#strings.substringAfter(auth, '_')}" class="span-roles"></span>
+                <span th:unless="${status.last}">&nbsp;</span>
+            </span>
+        </div>
+        <div class="col text-center d-flex align-items-center">
+        </div>
+        <div class="col d-flex align-items-center text-end">
+            <div class="ms-auto"><a href="/logout" class="logout-link">Logout</a></div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid m-0">
+    <div class="row align-middle block-content-height">
+        <div class="col-2 ">
+            <div class="ul-roles-list">
+                <ul class="list-unstyled">
+                    <li th:each="auth : ${loggedUser.authorities}" class="li-left-col"
+                        th:class="${#strings.toLowerCase(#strings.substringAfter(auth, '_')) == 'user' ? 'active' : 'none'}">
+                        <a class="li-a-left-col"
+                           th:href="@{'/' + ${#strings.toLowerCase(#strings.substringAfter(auth, '_'))}}"
+                           th:text="${#strings.substringAfter(auth, '_')}"></a>
+                    </li>
+
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-10 ">
+            <div class="admin-panel-text">User information-page</div>
+
+            <div>
+                <div class="show active overflow-auto user-table-block">
+                    <div class="user-panel-text"><span>About user</span></div>
+                    <div class="table-responsive user-table-div">
+                        <table class="table table-hover">
+
+                            <thead class="black-div-text">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">First Name</th>
+                                <th scope="col">Last Name</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Sex</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Status</th>
 
 
+                            </tr>
+                            </thead>
+                            <tbody class="black-div-text">
+                            <tr th:each=" usr : ${loggedUserDetails}">
+
+                                <td th:text="${usr.id}">id</td>
+                                <td th:text="${usr.firstName}">name</td>
+                                <td th:text="${usr.lastName}">surname</td>
+                                <td th:text="${usr.age}">age</td>
+                                <td th:text="${usr.gender}">gender</td>
+                                <td th:text="${usr.email}">email</td>
+                                <td>
+                                    <span th:each=" roles, status : ${usr.role}">
+                                    <span th:text="${#strings.substringAfter(roles.name, '_')}"></span>
+                                    <span th:unless="${status.last}">&nbsp;</span>
+                                    </span>
+                                </td>
+                                <td th:text="${usr.status}">status</td>
+
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
 </body>
 </html>

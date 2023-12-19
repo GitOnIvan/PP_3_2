@@ -1,5 +1,9 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,87 +12,111 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Table(name = "user_new")
+@Table(name = "users")
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private long id;
 
-    private String username;
 
-    private String password;
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String pass;
+
     @Transient
-    private String passwordConfirm;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    private String confirmPass;
 
-    public User() {
-    }
+    @Column(name = "first_name")
+    private String firstName;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "last_name")
+    private String lastName;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "age")
+    private int age;
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
+    @Column(name = "gender")
+    private String gender;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "users_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> role;
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return getRole();
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return pass;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return email;
     }
 
-    public String getPasswordConfirm() {
-        return passwordConfirm;
+    @Override
+    public boolean isAccountNonExpired() {
+        return status.equals(Status.ACTIVE);
     }
 
-    public void setPasswordConfirm(String passwordConfirm) {
-        this.passwordConfirm = passwordConfirm;
+    @Override
+    public boolean isAccountNonLocked() {
+        return status.equals(Status.ACTIVE);
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return status.equals(Status.ACTIVE);
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    @Override
+    public boolean isEnabled() {
+        return status.equals(Status.ACTIVE);
     }
+
+    public User(String email, String pass, String firstName, String lastName, int age, String gender, Set<Role> role, Status status) {
+        this.email = email;
+        this.pass = pass;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.gender = gender;
+        this.role = role;
+        this.status = status;
+    }
+
+    public User(String email, String pass, String firstName, String lastName, int age, String gender, Status status) {
+        this.email = email;
+        this.pass = pass;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.gender = gender;
+        this.status = status;
+    }
+
+
+
 }

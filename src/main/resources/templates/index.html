@@ -1,11 +1,147 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Admin Panel</title>
+    <link href="../static/css/main.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
+<div class="user-panel-text"> All users</div>
+<div class="table-responsive user-table-div">
+    <table class="table table-hover">
+        <thead class="black-div-text">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Age</th>
+            <th scope="col">Sex</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Status</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+
+        </tr>
+        </thead>
+        <tbody class="black-div-text">
+        <tr th:each=" usr : ${loggedUserDetails}">
+
+            <td th:text="${usr.id}">id</td>
+            <td th:text="${usr.firstName}">name</td>
+            <td th:text="${usr.lastName}">surname</td>
+            <td th:text="${usr.age}">age</td>
+            <td th:text="${usr.gender}">gender</td>
+            <td th:text="${usr.email}">email</td>
+            <td>
+                                    <span th:each=" roles, status : ${usr.role}">
+                                    <span th:text="${#strings.substringAfter(roles.name, '_')}"></span>
+                                    <span th:unless="${status.last}">&nbsp;</span>
+                                    </span>
+            </td>
+            <td th:text="${usr.status}">status</td>
+            <td>
+                <button type="button" class="btn btn-outline-success"
+                        data-bs-toggle="modal" data-bs-target="#editModal"
+                        th:data-bs-id="${usr.id}">
+                    Edit
+                </button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-outline-danger"
+                        data-bs-toggle="modal" data-bs-target="#deleteModal"
+                        th:data-bs-id="${usr.id}">Delete
+                </button>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div class="container-fluid m-0">
+    <div class="row align-middle">
+        <div class="col-12">
+
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Закрыть"></button>
+                       </div>
 
 
+
+
+                        <form id="deleteForm" action="#" method="post">
+                            <input type="hidden" id="deleteUserId" name="userId" value="">
+                            <div class="modal-body">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="userIDd" placeholder="userID" disabled>
+                                    <label for="userIDd">ID</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="userNameD" placeholder="userName"
+                                           disabled>
+                                    <label for="userNameD">First Name</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" multiple id="userRoleDelete" >
+                                        <option value="" disabled selected>Choose User's Status</option>
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="USER">USER</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close
+                                </button>
+                                <button type="submit" class="btn btn-outline-danger">Delete user</button>
+                            </div>
+
+
+
+                        </form>
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
+<script>
+    // Обработка клика на кнопку удаления
+    const deleteButtons = document.querySelectorAll('[data-bs-target="#deleteModal"]');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const userId = button.getAttribute('th:data-bs-id');  // Получаем Id пользователя
+            document.getElementById('deleteUserId').value = userId;  // Устанавливаем значение в скрытое поле формы
+        });
+    });
+</script>
 </body>
 </html>
