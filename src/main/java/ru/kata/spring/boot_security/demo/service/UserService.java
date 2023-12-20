@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepo;
@@ -39,8 +40,9 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = findUserByEmail(email);
+        User user = userRepo.findUserByEmail(email);
         if(user == null) {
             throw new UsernameNotFoundException(String.format("User with '%s' not found", email));
         }
@@ -72,14 +74,11 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public boolean addNewUser (User user) {
+    public void addNewUser (User user) {
         User userDB = userRepo.findUserByEmail(user.getEmail());
         if (userDB == null) {
             user.setPass(passwordEncoder.encode(user.getPass()));
             em.persist(user);
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -88,7 +87,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void updateUser(long id, User updatedUser) {
-        User userToBeUpdate = findUsersById(id);
+        User userToBeUpdate = userRepo.findUsersById(id);
 
         userToBeUpdate.setFirstName(updatedUser.getFirstName());
         userToBeUpdate.setLastName(updatedUser.getLastName());

@@ -75,6 +75,7 @@ public class UserController {
 
     @PostMapping("/admin")
     public String createUser(@ModelAttribute("newUser") User addUser) {
+
         userService.addNewUser(addUser);
 
         return "redirect:/admin";
@@ -96,6 +97,8 @@ public class UserController {
 
         UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) principal;
         model.addAttribute("loggedUser", authToken);
+
+        model.addAttribute("testUser1", userService.findUserByEmail("workarthuron@gmail.com"));
 
 
         if (userService.findAllUsers() == null) {
