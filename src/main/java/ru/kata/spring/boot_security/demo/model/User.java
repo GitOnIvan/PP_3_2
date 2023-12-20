@@ -41,7 +41,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(name = "age")
-    private int age;
+    private Integer age;
 
     @Column(name = "gender")
     private String gender;
@@ -96,7 +96,7 @@ public class User implements UserDetails {
         return status.equals(Status.ACTIVE);
     }
 
-    public User(String email, String pass, String firstName, String lastName, int age, String gender, Set<Role> role, Status status) {
+    public User(String email, String pass, String firstName, String lastName, Integer age, String gender, Set<Role> role, Status status) {
         this.email = email;
         this.pass = pass;
         this.firstName = firstName;
@@ -107,7 +107,7 @@ public class User implements UserDetails {
         this.status = status;
     }
 
-    public User(String email, String pass, String firstName, String lastName, int age, String gender, Status status) {
+    public User(String email, String pass, String firstName, String lastName, Integer age, String gender, Status status) {
         this.email = email;
         this.pass = pass;
         this.firstName = firstName;

@@ -93,14 +93,27 @@
                                 <td>
                                     <button type="button" class="btn btn-outline-success"
                                             data-bs-toggle="modal" data-bs-target="#editModal"
-                                            th:data-bs-id="${usr.id}">
+                                            th:data-id="${usr.id}"
+                                            th:data-firstName="${usr.firstName}"
+                                            th:data-lastName="${usr.lastName}"
+                                            th:data-age="${usr.age}"
+                                            th:data-email="${usr.email}">
                                         Edit
                                     </button>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-outline-danger"
                                             data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                            th:data-bs-id="${usr.id}">Delete
+                                            th:data-id="${usr.id}"
+                                            th:data-firstName="${usr.firstName}"
+                                            th:data-lastName="${usr.lastName}"
+                                            th:data-age="${usr.age}"
+                                            th:data-gender="${usr.gender}"
+                                            th:data-email="${usr.email}"
+                                            th:data-role="${usr.role}"
+                                            th:data-status="${usr.status}">
+                                        Delete
+
                                     </button>
                                 </td>
                             </tr>
@@ -151,20 +164,20 @@
                                     <option th:value="ACTIVE" value="BANNED">ACTIVE</option>
                                     <option th:value="BANNED" value="ACTIVE">BANNED</option>
                                 </select>
-                                <label for="StatusA">Status</label>
+                                    <label for="StatusA">Status</label>
                             </div>
 
                             <div class="form-floating mb-3">
 
                                 <div class="form-floating mb-3">
-                                    <label for="userRoleA">
 
-                                    </label><select class="form-select" id="userRoleA" size="2" multiple th:field="*{role}">
+
+                                    <select class=" form-select" id="userRoleA" size="2" multiple th:field="*{role}">
                                         <th:block th:each="role :${allRoles}">
                                             <option th:text="${role.name}" th:value="${role.id}"></option>
                                         </th:block>
                                     </select>
-
+                                    <label for="userRoleA" hidden="hidden">User roles</label>
 
                                 </div>
 
@@ -192,6 +205,9 @@
                 <h5 class="modal-title" id="editModalLabel">Edit user</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
+
+
+
             <form>
                 <div class="modal-body">
                     <div class="form-floating mb-3">
@@ -238,12 +254,12 @@
                         <label for="StatusEdit">Status</label>
                     </div>
 
-                    <div class="form-floating mb-3">
+                    <div class="form-floating mb-3" >
                         <select class="form-select" multiple id="userRole" size="2">
-                            <option value="" selected disabled>Choose User's Role</option>
                             <option value="ADMIN">ADMIN</option>
                             <option value="USER">USER</option>
                         </select>
+                        <label for="userRole" hidden="hidden">User roles</label>
                     </div>
 
 
@@ -269,55 +285,40 @@
             <form>
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input  type="text" class="form-control" id="userIdDelete" placeholder="userID" disabled>
+                        <input type="text" class="form-control" id="userIdDelete" placeholder="userID" disabled >
                         <label for="userIdDelete">ID</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userNameDelete" placeholder="userName">
+                        <input type="text" class="form-control" id="userNameDelete" placeholder="userName" disabled >
                         <label for="userNameDelete">First Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userSurnameDelete" placeholder="userSurname">
+                        <input type="text" class="form-control" id="userSurnameDelete" placeholder="userSurname" disabled >
                         <label for="userSurnameDelete">Last Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="emailDelete" placeholder="name@mail.com">
+                        <input type="email" class="form-control" id="emailDelete" placeholder="name@mail.com" disabled >
                         <label for="emailDelete">Email</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="PasswordDelete" placeholder="password">
-                        <label for="PasswordDelete">Password</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="userAgeDelete" placeholder="userAge">
+                        <input type="number" class="form-control" id="userAgeDelete" placeholder="userAge" disabled >
                         <label for="userAgeDelete">Age</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="SexDelete" aria-label="Sex">
-                            <option value="" selected disabled>Choose User's gender</option>
-                            <option value="F">Female</option>
-                            <option value="M">Male</option>
-                        </select>
-                        <label for="SexDelete">Sex</label>
+                        <input type="text" class="form-control" id="SexDelete" placeholder="userAge" disabled >
+                        <label for="SexDelete">Age</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="StatusDelete" aria-label="Status">
-                            <option value="" selected disabled>Choose User's Status</option>
-                            <option value="BANNED">ACTIVE</option>
-                            <option value="ACTIVE">BANNED</option>
-                        </select>
-                        <label for="StatusDelete">Status</label>
+                        <input type="text" class="form-control" id="StatusDelete" placeholder="userAge" disabled >
+                        <label for="StatusDelete">Age</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select class="form-select" multiple id="userRoleDelete" size="2">
-                            <option value="" selected disabled>Choose User's Role</option>
-                            <option value="ADMIN">ADMIN</option>
-                            <option value="USER">USER</option>
-                        </select>
+                        <input type="text" class="form-control" id="userRoleDelete" placeholder="userAge" disabled >
+                        <label for="userRoleDelete">Age</label>
                     </div>
 
 
@@ -343,24 +344,30 @@
 
 
 <script>
-        var editModal = document.getElementById('editModal');
-        editModal.addEventListener('show.bs.modal', function(event) {
-        var button = event.relatedTarget;
-        const userId = button.getAttribute('data-bs-id');
-        var url = new URL(window.location.href);
-        url.searchParams.set('Id', userId);
-        window.history.replaceState(null, null, url.toString());
+    const myModal = document.getElementById('deleteModal');
+    myModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        document.getElementById('userIdDelete').value = button.getAttribute('data-id');
+        document.getElementById('userNameDelete').value = button.getAttribute('data-firstName');
+        document.getElementById('userSurnameDelete').value = button.getAttribute('data-lastName');
+        document.getElementById('userAgeDelete').value = button.getAttribute('data-age');
+        document.getElementById('SexDelete').value = button.getAttribute('data-gender');
+        document.getElementById('emailDelete').value = button.getAttribute('data-email');
+        document.getElementById('userRoleDelete').value = button.getAttribute('data-role');
+        document.getElementById('StatusDelete').value = button.getAttribute('data-status');
+
     });
 
-        var editModal = document.getElementById('deleteModal');
-        editModal.addEventListener('show.bs.modal', function(event) {
-        var button = event.relatedTarget;
-        const userId = button.getAttribute('data-bs-id');
-        var url = new URL(window.location.href);
-        url.searchParams.set('Id', userId);
-        window.history.replaceState(null, null, url.toString());
-    });
+    const myNextModal = document.getElementById('editModal');
+    myNextModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        document.getElementById('userIdEdit').value = button.getAttribute('data-id');
+        document.getElementById('userNameEdit').value = button.getAttribute('data-firstName');
+        document.getElementById('userSurnameEdit').value = button.getAttribute('data-lastName');
+        document.getElementById('userAgeEdit').value = button.getAttribute('data-age');
+        document.getElementById('emailEdit').value = button.getAttribute('data-email');
 
+    });
 </script>
 
 

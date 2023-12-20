@@ -47,14 +47,17 @@
             <td>
                 <button type="button" class="btn btn-outline-success"
                         data-bs-toggle="modal" data-bs-target="#editModal"
-                        th:data-bs-id="${usr.id}">
+                        th:data-id="${usr.id}">
                     Edit
                 </button>
             </td>
             <td>
                 <button type="button" class="btn btn-outline-danger"
                         data-bs-toggle="modal" data-bs-target="#deleteModal"
-                        th:data-bs-id="${usr.id}">Delete
+                        th:data-id="${usr.id}"
+                        th:data-name="${usr.firstName}"
+
+                >Delete
                 </button>
             </td>
         </tr>
@@ -63,7 +66,29 @@
     </table>
 </div>
 
-<div th:text="${test.getEmail()}" > </div>
+html
+Copy code
+<!-- Кнопка, которая открывает модальное окно -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" th:data-id="${test.getEmail()}">Открыть модальное окно</button>
+
+<!-- Модальное окно -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Заголовок модального окна</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Используем значение из Thymeleaf -->
+                <p>Значение из Thymeleaf: <span th:text="${test.getEmail()}"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container-fluid m-0">
     <div class="row align-middle">
@@ -79,14 +104,11 @@
                                     aria-label="Закрыть"></button>
                        </div>
 
-
-
-
-                        <form id="deleteForm" action="#" method="post">
-                            <input type="hidden" id="deleteUserId" name="userId" value="">
+                        <form>
+                            <input type="hidden" id="userIdDelete" name="userId" value="">
                             <div class="modal-body">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="userIDd" placeholder="userID" disabled>
+                                    <input type="text" class="form-control" id="userIDd" placeholder="userID" disabled >
                                     <label for="userIDd">ID</label>
                                 </div>
                                 <div class="form-floating mb-3">
@@ -136,13 +158,11 @@
         crossorigin="anonymous"></script>
 
 <script>
-    // Обработка клика на кнопку удаления
-    const deleteButtons = document.querySelectorAll('[data-bs-target="#deleteModal"]');
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const userId = button.getAttribute('th:data-bs-id');  // Получаем Id пользователя
-            document.getElementById('deleteUserId').value = userId;  // Устанавливаем значение в скрытое поле формы
-        });
+    const myModal = document.getElementById('deleteModal');
+    myModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        document.getElementById('userIDd').value = button.getAttribute('data-id');
+        document.getElementById('userNameD').value = button.getAttribute('data-name');
     });
 </script>
 </body>
