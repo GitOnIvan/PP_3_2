@@ -15,9 +15,8 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 
 
@@ -65,13 +64,12 @@ public class UserController {
 
     @GetMapping("/admin")
     public String getUsersList(ModelMap model, Principal principal){
+
         if (userService.findAll().isEmpty()) {
 
             userService.addRole((new Role("ROLE_ADMIN")));
             userService.addRole((new Role("ROLE_USER")));
         }
-
-        System.out.println(userService.findAll());
 
 
         model.addAttribute("allRoles", userService.findAll());
@@ -105,9 +103,6 @@ public class UserController {
         User userAdd = getListOfUsers().stream()
                 .filter(user -> user.getEmail().equals(addUser.getEmail()))
                 .findAny().orElse(null);
-
-
-
 
         if (userAdd == null) {
             userService.addNewUser(addUser);
