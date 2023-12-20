@@ -10,19 +10,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepo;
 import ru.kata.spring.boot_security.demo.repository.UserRepo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Service
 public class UserService implements UserDetailsService {
+
 
     @PersistenceContext
     private EntityManager em;
@@ -48,7 +49,10 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
-
+    @Transactional
+    public List<Role> findAll() {
+        return roleRepo.findAll();
+    }
 
     @Transactional
     public User findUserByEmail(String email) {
@@ -75,11 +79,13 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void addNewUser (User user) {
-        User userDB = userRepo.findUserByEmail(user.getEmail());
-        if (userDB == null) {
+        Set<Role> roles = user.getRole();
+        System.out.println(roles);
+        System.out.println();
+
             user.setPass(passwordEncoder.encode(user.getPass()));
-            em.persist(user);
-        }
+            userRepo.save(user);
+
     }
 
 
@@ -104,5 +110,7 @@ public class UserService implements UserDetailsService {
     public void deleteById(Long id) {
         userRepo.deleteById(id);
     }
+
+
 
 }
