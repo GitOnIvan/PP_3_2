@@ -8,13 +8,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepo;
 import ru.kata.spring.boot_security.demo.repository.UserRepo;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;
@@ -29,8 +27,6 @@ public class UserService implements UserDetailsService {
     private EntityManager em;
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
-
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -49,10 +45,24 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
+
+    // Role methods
     @Transactional
     public List<Role> findAll() {
+
         return roleRepo.findAll();
     }
+
+    @Transactional
+    public void addRole(Role role) {
+        roleRepo.save(role);
+    }
+
+
+
+
+
+    // User methods
 
     @Transactional
     public User findUserByEmail(String email) {
@@ -60,10 +70,6 @@ public class UserService implements UserDetailsService {
     }
 
 
-    @Transactional
-    public User findUsersById (Long id) {
-        return userRepo.findUsersById(id);
-    }
 
 
     @Transactional
@@ -79,13 +85,26 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void addNewUser (User user) {
-        Set<Role> roles = user.getRole();
-        System.out.println(roles);
-        System.out.println();
 
             user.setPass(passwordEncoder.encode(user.getPass()));
             userRepo.save(user);
+    }
 
+
+
+
+
+
+
+
+
+
+
+
+
+    @Transactional
+    public User findUsersById (Long id) {
+        return userRepo.findUsersById(id);
     }
 
 

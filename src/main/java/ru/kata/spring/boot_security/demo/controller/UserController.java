@@ -33,10 +33,7 @@ public class UserController {
     }
 
     @ModelAttribute ("newUser")
-    public User newUser(Model model) {
-
-        model.addAttribute("allRoles", userService.findAll());
-
+    public User newUser() {
         return new User();
     }
 
@@ -68,6 +65,16 @@ public class UserController {
 
     @GetMapping("/admin")
     public String getUsersList(ModelMap model, Principal principal){
+        if (userService.findAll().isEmpty()) {
+
+            userService.addRole((new Role("ROLE_ADMIN")));
+            userService.addRole((new Role("ROLE_USER")));
+        }
+
+        System.out.println(userService.findAll());
+
+
+        model.addAttribute("allRoles", userService.findAll());
 
 
         UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) principal;
