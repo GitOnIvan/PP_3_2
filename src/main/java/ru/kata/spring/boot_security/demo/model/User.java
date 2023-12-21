@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Collection;
 import java.util.Set;
 
@@ -23,27 +24,35 @@ public class User implements UserDetails {
     @Column(name = "id")
     private long id;
 
-
+    @Email(message = "Wrong email!")
     @Column(name = "email")
     private String email;
 
+    @NotEmpty(message = "Password should not be empty!")
     @Column(name = "password")
     private String pass;
 
+    @NotEmpty(message = "Name should not be empty!")
+    @Pattern(regexp = "^[^0-9]*$", message = "Name should not contain digits.")
     @Column(name = "first_name")
     private String firstName;
 
+    @NotEmpty(message = "Last Name should not be empty!")
+    @Pattern(regexp = "^[^0-9]*$", message = "Last Name should not contain digits.")
     @Column(name = "last_name")
     private String lastName;
 
+    @NotNull(message = "Age should not be empty!")
+    @PositiveOrZero(message = "Age should not be below zero!")
     @Column(name = "age")
     private Integer age;
 
+    @Pattern(regexp = "^[FM]$", message = "The field should be 'F'(Female) or 'M'(Male).")
     @Column(name = "gender")
     private String gender;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "users_role",
             joinColumns = @JoinColumn(name = "user_id"),

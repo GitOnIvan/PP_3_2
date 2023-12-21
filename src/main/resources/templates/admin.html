@@ -55,7 +55,7 @@
                 </ul>
             </div>
             <div class="tab-content">
-                <div class="tab-pane fade show active overflow-auto admin-table-block" id="content1">
+                <div class="tab-pane fade show active overflow-auto admin-table-block" id="content1" >
                     <div class="user-panel-text"> All users</div>
                     <div class="table-responsive user-table-div">
                         <table class="table table-hover" id="userTable">
@@ -122,8 +122,8 @@
                         </table>
                     </div>
                 </div>
-                <div class="tab-pane fade overflow-auto" id="content2">
-                    <form th:method="post" th:action="@{/admin}" th:object="${newUser}">
+                <div class="tab-pane fade overflow-auto" id="content2" >
+                    <form class="needs-validation" novalidate th:method="post" th:action="@{/admin}" th:object="${newUser}">
                         <div class="div-add-user">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="userNameA" placeholder="First Name"
@@ -147,7 +147,10 @@
                             </div>
                             <div class="form-floating mb-3">
                                 <input type="number" class="form-control" id="userAgeA" placeholder="Age"
-                                       th:field="*{age}" required>
+                                       th:field="*{age}" required min="0" max="200">
+                                <div class="invalid-feedback">
+                                    Пожалуйста, введите число от 0 до 200.
+                                </div>
                                 <label for="userAgeA">Age</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -203,7 +206,7 @@
 
 
 
-            <form id="yourFormId">
+            <form id="yourFormId" class="needs-validation" novalidate>
                 <div class="modal-body">
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="userIdEdit" placeholder="userID" disabled>
@@ -227,7 +230,10 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="userAgeEdit" placeholder="userAge" required>
+                        <input type="number" class="form-control" id="userAgeEdit" placeholder="userAge" required min="0" max="200">
+                        <div class="invalid-feedback">
+                            Пожалуйста, введите число от 0 до 200.
+                        </div>
                         <label for="userAgeEdit">Age</label>
                     </div>
 
@@ -473,6 +479,28 @@
             }
         });
     });
+
+
+    // Пример кода для включения проверки формы в Bootstrap 5
+    (function () {
+        'use strict'
+
+        // Получаем все формы, к которым мы хотим применить стили валидации Bootstrap
+        const forms = document.querySelectorAll('.needs-validation');
+
+        // Проходим по формам и предотвращаем отправку, если есть невалидные поля
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
 </script>
 
 
