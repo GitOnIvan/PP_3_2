@@ -127,62 +127,57 @@
                         <div class="div-add-user">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="userNameA" placeholder="First Name"
-                                       th:field="*{firstName}">
+                                       th:field="*{firstName}" required>
                                 <label for="userNameA">First Name</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="userSurnameA" placeholder="Last Name"
-                                       th:field="*{lastName}">
+                                       th:field="*{lastName}" required>
                                 <label for="userSurnameA">Last Name</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" id="emailA" placeholder="Email"
-                                       th:field="*{email}">
+                                       th:field="*{email}" required>
                                 <label for="emailA">Email</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <input type="password" class="form-control" id="PasswordA" placeholder="Password"
-                                       th:field="*{pass}">
+                                       th:field="*{pass}" required>
                                 <label for="PasswordA">Password</label>
                             </div>
                             <div class="form-floating mb-3">
                                 <input type="number" class="form-control" id="userAgeA" placeholder="Age"
-                                       th:field="*{age}">
+                                       th:field="*{age}" required>
                                 <label for="userAgeA">Age</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SexA" aria-label="Sex" th:field="*{gender}">
-                                    <option value="" disabled selected>Choose User's gender</option>
+                                <select class="form-select" id="SexA" aria-label="Sex" th:field="*{gender}" required>
+                                    <option value="" disabled selected hidden>Choose User's gender</option>
                                     <option th:value="F" value="F">Female</option>
                                     <option th:value="M" value="F">Male</option>
+
                                 </select>
                                 <label for="SexA">Sex</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="StatusA" aria-label="Status" th:field="*{status}">
-                                    <option value="" disabled selected>Choose User's Status</option>
+                                <select class="form-select" id="StatusA" aria-label="Status" th:field="*{status}" required>
+                                    <option value="" disabled selected hidden>Choose User's Status</option>
                                     <option th:value="ACTIVE" value="BANNED">ACTIVE</option>
                                     <option th:value="BANNED" value="ACTIVE">BANNED</option>
+
                                 </select>
                                     <label for="StatusA">Status</label>
                             </div>
 
                             <div class="form-floating mb-3">
-
-                                <div class="form-floating mb-3">
-
-
-                                    <select class=" form-select" id="userRoleA" size="2" multiple th:field="*{role}">
+                                    <select class=" form-select role-custom" id="userRoleA" multiple th:field="*{role}" required>
                                         <th:block th:each="role :${allRoles}">
-                                            <option th:text="${role.name}" th:value="${role.id}"></option>
+                                            <option th:text="${role.name}" th:value="${role.id}" ></option>
                                         </th:block>
                                     </select>
                                     <label for="userRoleA" hidden="hidden">User roles</label>
-
-                                </div>
-
-
                             </div>
+
                             <div class="d-flex justify-content-center">
                                 <button type="submit" class="btn btn-outline-primary">Add user</button>
                             </div>
@@ -215,30 +210,29 @@
                         <label for="userIdEdit">ID</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userNameEdit" placeholder="userName">
+                        <input type="text" class="form-control" id="userNameEdit" placeholder="userName" required>
                         <label for="userNameEdit">First Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userSurnameEdit" placeholder="userSurname">
+                        <input type="text" class="form-control" id="userSurnameEdit" placeholder="userSurname" required>
                         <label for="userSurnameEdit">Last Name</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="emailEdit" placeholder="name@mail.com">
+                        <input type="email" class="form-control" id="emailEdit" placeholder="name@mail.com" required>
                         <label for="emailEdit">Email</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="PasswordEdit" placeholder="password">
+                        <input type="password" class="form-control" id="PasswordEdit" placeholder="password" required>
                         <label for="PasswordEdit">Password</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="userAgeEdit" placeholder="userAge">
+                        <input type="number" class="form-control" id="userAgeEdit" placeholder="userAge" required>
                         <label for="userAgeEdit">Age</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="SexEdit" aria-label="Sex">
-                            <option value="" selected disabled>Choose User's gender</option>
+                        <select class="form-select" id="SexEdit" aria-label="Sex" required>
                             <option value="F">Female</option>
                             <option value="M">Male</option>
                         </select>
@@ -246,8 +240,7 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="StatusEdit" aria-label="Status">
-                            <option value="" selected disabled>Choose User's Status</option>
+                        <select class="form-select" id="StatusEdit" aria-label="Status" required>
                             <option value="ACTIVE">ACTIVE</option>
                             <option value="BANNED">BANNED</option>
                         </select>
@@ -255,7 +248,7 @@
                     </div>
 
                     <div class="form-floating mb-3" >
-                        <select class=" form-select" id="userRoleEdite" size="2" multiple >
+                        <select class=" form-select" id="userRoleEdite" multiple required>
                             <th:block th:each="role :${allRoles}">
                                 <option th:text="${role.name}" th:value="${role.name}" ></option>
                             </th:block>
