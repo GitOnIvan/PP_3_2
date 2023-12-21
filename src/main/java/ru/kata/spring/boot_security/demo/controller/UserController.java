@@ -134,36 +134,4 @@ public class UserController {
 
 
 
-
-
-
-
-
-// Delete this method after fixes !!!
-    @GetMapping("/")
-    public String getUsersListTest(ModelMap model, Principal principal) {
-
-
-        if (getListOfUsers() == null) {
-            List<User> users = new ArrayList<>();
-            model.addAttribute("loggedUserDetails", users);
-        } else {
-            model.addAttribute("loggedUserDetails", getListOfUsers());
-        }
-
-
-
-
-        model.addAttribute("test",getListOfUsers().stream()
-                .filter(user -> user.getEmail().equals("workarthuron@gmail.com"))
-                .findAny().orElse(null));
-
-
-        return "index";
-    }
-
-
-
-
-
 }
