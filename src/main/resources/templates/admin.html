@@ -326,7 +326,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-outline-danger">Delete user</button>
+                    <button type="button" class="btn btn-outline-danger" id="modalDeleteButton" data-bs-dismiss="modal">Delete user</button>
                 </div>
             </form>
 
@@ -353,13 +353,57 @@
         document.getElementById('userAgeDelete').value = button.getAttribute('data-age');
         document.getElementById('SexDelete').value = button.getAttribute('data-gender');
         document.getElementById('emailDelete').value = button.getAttribute('data-email');
-        document.getElementById('userRoleDelete').value = button.getAttribute('data-role');
         document.getElementById('StatusDelete').value = button.getAttribute('data-status');
 
+        const roles = button.getAttribute('data-role').split(' ');
+        document.getElementById('userRoleDelete').value = roles.map(role => {
+            return role.replace('[ROLE_', '').replace('ROLE_', ' ').replace(']', '').replace(',', '')
+        });
+
+        const modalButton = document.getElementById('modalDeleteButton');
+
+        // Обработчик события клика по кнопке в модальном окне
+        modalButton.addEventListener('click', function () {
+
+            const userId = document.getElementById('userIdDelete').value; // Здесь замените на вашу логику получения идентификатора пользователя
+
+            // Создание нового объекта XMLHttpRequest
+            const xhr = new XMLHttpRequest();
+
+            // Определение обработчика события при завершении запроса
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Обработка успешного ответа от сервера
+
+                        // Здесь вы можете выполнить дополнительные действия при успешном удалении пользователя
+
+                        console.log('Пользователь успешно удален!');
+                    } else {
+                        // Обработка ошибки при удалении пользователя
+                        console.error('Ошибка при удалении пользователя!');
+                    }
+                }
+            }
+
+            // Отправка DELETE-запроса на контроллер
+            xhr.open('POST', '/admin/delete/' + userId, true);
+            xhr.send();
+
+        });
     });
 
-    const myNextModal = document.getElementById('editModal');
-    myNextModal.addEventListener('show.bs.modal', function (event) {
+
+
+
+
+
+
+
+
+
+        const myNextModal = document.getElementById('editModal');
+        myNextModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
         document.getElementById('userIdEdit').value = button.getAttribute('data-id');
         document.getElementById('userNameEdit').value = button.getAttribute('data-firstName');

@@ -7,9 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -107,6 +105,14 @@ public class UserController {
         if (userAdd == null) {
             userService.addNewUser(addUser);
         }
+
+        return "redirect:/admin";
+    }
+
+
+    @PostMapping("/admin/delete/{userId}") // Маппинг на DELETE-запрос по идентификатору пользователя
+    public String deleteUserById(@PathVariable("userId") Long userId) {
+        userService.deleteById(userId);
 
         return "redirect:/admin";
     }
