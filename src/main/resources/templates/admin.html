@@ -357,7 +357,7 @@
 
         const roles = button.getAttribute('data-role').split(' ');
         document.getElementById('userRoleDelete').value = roles.map(role => {
-            return role.replace('[ROLE_', '').replace('ROLE_', ' ').replace(']', '').replace(',', '')
+            return role.replace('[ROLE_', '').replace('ROLE_', ' ').replace(']', '').replace(',', '').replace('[', '')
         });
 
         const modalButton = document.getElementById('modalDeleteButton');
