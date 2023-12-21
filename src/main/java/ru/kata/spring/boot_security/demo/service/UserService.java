@@ -109,13 +109,21 @@ public class UserService implements UserDetailsService {
     public void updateUser(long id, User updatedUser) {
         User userToBeUpdate = userRepo.findUsersById(id);
 
+
+        Set<Role> rolesFinal = updatedUser.getRole().stream()
+                .flatMap(role2 -> roleRepo.findAll().stream()
+                        .filter(role1 -> role1.getName().equals(role2.getName()))
+                        .map(role1 -> new Role(role1.getId(), role1.getName())))
+                .collect(Collectors.toSet());
+
+
         userToBeUpdate.setFirstName(updatedUser.getFirstName());
         userToBeUpdate.setLastName(updatedUser.getLastName());
         userToBeUpdate.setAge(updatedUser.getAge());
         userToBeUpdate.setGender(updatedUser.getGender());
         userToBeUpdate.setEmail(updatedUser.getEmail());
         userToBeUpdate.setPass(passwordEncoder.encode(updatedUser.getPass()));
-        userToBeUpdate.setRole(updatedUser.getRole());
+        userToBeUpdate.setRole(rolesFinal);
         userToBeUpdate.setStatus(updatedUser.getStatus());
 
 

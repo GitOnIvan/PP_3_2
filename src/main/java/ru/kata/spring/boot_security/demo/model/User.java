@@ -31,9 +31,6 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String pass;
 
-    @Transient
-    private String confirmPass;
-
     @Column(name = "first_name")
     private String firstName;
 
@@ -116,7 +113,6 @@ public class User implements UserDetails {
         this.gender = gender;
         this.status = status;
     }
-
 
 
 }

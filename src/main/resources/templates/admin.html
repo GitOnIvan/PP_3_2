@@ -248,18 +248,19 @@
                     <div class="form-floating mb-3">
                         <select class="form-select" id="StatusEdit" aria-label="Status">
                             <option value="" selected disabled>Choose User's Status</option>
-                            <option value="BANNED">ACTIVE</option>
-                            <option value="ACTIVE">BANNED</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="BANNED">BANNED</option>
                         </select>
                         <label for="StatusEdit">Status</label>
                     </div>
 
                     <div class="form-floating mb-3" >
-                        <select class="form-select" multiple id="userRole" size="2">
-                            <option value="ADMIN">ADMIN</option>
-                            <option value="USER">USER</option>
+                        <select class=" form-select" id="userRoleEdite" size="2" multiple >
+                            <th:block th:each="role :${allRoles}">
+                                <option th:text="${role.name}" th:value="${role.name}" ></option>
+                            </th:block>
                         </select>
-                        <label for="userRole" hidden="hidden">User roles</label>
+                        <label for="userRoleEdite" hidden="hidden">User roles</label>
                     </div>
 
 
@@ -267,7 +268,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-outline-success">Edit user</button>
+                    <button type="button" class="btn btn-outline-success" id="userEditButton">Edit user</button>
                 </div>
             </form>
         </div>
@@ -362,13 +363,13 @@
 
         const modalButton = document.getElementById('modalDeleteButton');
 
-// Обработчик события клика по кнопке в модальном окне
+        // Обработчик события клика по кнопке в модальном окне
         modalButton.addEventListener('click', function () {
             const userId = document.getElementById('userIdDelete').value; // Получаем идентификатор пользователя для удаления
 
-            // Отправка DELETE-запроса на контроллер с использованием fetch
+            // Отправка POST-запроса на контроллер с использованием fetch
             fetch('/admin/delete/' + userId, {
-                method: 'POST', // Используем метод DELETE для удаления пользователя
+                method: 'POST',
             })
                 .then(response => {
                     if (response.ok) {
@@ -386,8 +387,7 @@
                     console.error('Произошла ошибка при удалении пользователя:', error);
                 });
 
-            // Закрытие модального окна и обновление страницы следует выполнять только после получения подтверждения об успешном удалении
-            // Поэтому эти действия необходимо включить в цепочку промисов выше, если это требуется
+
         });
 
 
@@ -395,23 +395,74 @@
     });
 
 
-
-
-
-
-
-
-
-
+    document.addEventListener('DOMContentLoaded', function () {
         const myNextModal = document.getElementById('editModal');
         myNextModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        document.getElementById('userIdEdit').value = button.getAttribute('data-id');
-        document.getElementById('userNameEdit').value = button.getAttribute('data-firstName');
-        document.getElementById('userSurnameEdit').value = button.getAttribute('data-lastName');
-        document.getElementById('userAgeEdit').value = button.getAttribute('data-age');
-        document.getElementById('emailEdit').value = button.getAttribute('data-email');
+            const button = event.relatedTarget;
+            document.getElementById('userIdEdit').value = button.getAttribute('data-id');
+            document.getElementById('userNameEdit').value = button.getAttribute('data-firstName');
+            document.getElementById('userSurnameEdit').value = button.getAttribute('data-lastName');
+            document.getElementById('userAgeEdit').value = button.getAttribute('data-age');
+            document.getElementById('emailEdit').value = button.getAttribute('data-email');
 
+            const modalButton = document.getElementById('userEditButton');
+
+            modalButton.addEventListener('click', function () {
+                const userId = document.getElementById('userIdEdit').value;
+                const userName = document.getElementById('userNameEdit').value;
+                const userSurname = document.getElementById('userSurnameEdit').value;
+                const userAge = document.getElementById('userAgeEdit').value;
+                const userGender = document.getElementById('SexEdit').value;
+                const userStatus = document.getElementById('StatusEdit').value;
+                const userPassword = document.getElementById('PasswordEdit').value;
+                const userEmail = document.getElementById('emailEdit').value;
+
+                const selectElement = document.getElementById('userRoleEdite');
+                if (selectElement.selectedOptions) {
+                    const selectedValues = Array.from(selectElement.selectedOptions).map(option => option.value);
+
+
+                    const user = {
+
+                        firstName: userName,
+                        lastName: userSurname,
+                        gender: userGender,
+                        age: userAge,
+                        status: userStatus,
+                        pass: userPassword,
+                        email: userEmail,
+                        role: selectedValues
+                    };
+
+
+                    // Fetch API usage to send the POST request
+                    fetch('/admin/edit/' + userId, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(user) // stringify the user object before sending
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                console.log('Пользователь успешно обновлен!');
+                                location.reload(); // Refresh page to reflect changes
+                            } else {
+                                console.error('Ошибка при обновлении пользователя!');
+                                return response.text().then(text => {
+                                    throw new Error(text)
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Произошла ошибка при обновлении пользователя:', error);
+                        });
+
+                } else {
+                    console.error('selectedOptions is undefined');
+                }
+            });
+        });
     });
 </script>
 
