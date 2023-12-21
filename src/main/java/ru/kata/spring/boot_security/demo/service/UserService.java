@@ -90,16 +90,11 @@ public class UserService implements UserDetailsService {
             userRepo.save(user);
     }
 
+    @Transactional
+    public void deleteById(Long id) {
+        userRepo.deleteById(id);
 
-
-
-
-
-
-
-
-
-
+    }
 
 
     @Transactional
@@ -125,10 +120,7 @@ public class UserService implements UserDetailsService {
 
 
     }
-    @Transactional
-    public void deleteById(Long id) {
-        userRepo.deleteById(id);
-    }
+
 
 
 

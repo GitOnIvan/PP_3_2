@@ -3,6 +3,8 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -110,12 +112,25 @@ public class UserController {
     }
 
 
-    @PostMapping("/admin/delete/{userId}") // Маппинг на DELETE-запрос по идентификатору пользователя
+    @PostMapping("/admin/delete/{userId}")
     public String deleteUserById(@PathVariable("userId") Long userId) {
         userService.deleteById(userId);
 
         return "redirect:/admin";
     }
+
+    @PostMapping("/admin/edit/{userId}")
+    public String updateUser(@PathVariable String userId, @RequestBody User user) {
+        // Здесь должна быть логика обновления пользователя в базе данных или другое действие
+
+        // Пример: вывод информации о пользователе в консоль
+        System.out.println("Обновление пользователя: ID=" + userId + ", Name=" + user.getFirstName() +
+                ", Age=" + user.getAge() + ", Gender=" + user.getStatus());
+
+        return "redirect:/admin";
+}
+
+
 
 
 

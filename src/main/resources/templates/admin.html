@@ -362,36 +362,32 @@
 
         const modalButton = document.getElementById('modalDeleteButton');
 
-        // Обработчик события клика по кнопке в модальном окне
+// Обработчик события клика по кнопке в модальном окне
         modalButton.addEventListener('click', function () {
+            const userId = document.getElementById('userIdDelete').value; // Получаем идентификатор пользователя для удаления
 
-            const userId = document.getElementById('userIdDelete').value; // Здесь замените на вашу логику получения идентификатора пользователя
-
-            // Создание нового объекта XMLHttpRequest
-            const xhr = new XMLHttpRequest();
-
-            // Определение обработчика события при завершении запроса
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === XMLHttpRequest.DONE) {
-                    if (xhr.status === 200) {
+            // Отправка DELETE-запроса на контроллер с использованием fetch
+            fetch('/admin/delete/' + userId, {
+                method: 'POST', // Используем метод DELETE для удаления пользователя
+            })
+                .then(response => {
+                    if (response.ok) {
                         // Обработка успешного ответа от сервера
-
-                        // Здесь вы можете выполнить дополнительные действия при успешном удалении пользователя
-
                         console.log('Пользователь успешно удален!');
-
-
+                        location.reload(); // Обновить страницу
                     } else {
                         // Обработка ошибки при удалении пользователя
                         console.error('Ошибка при удалении пользователя!');
+                        return response.text().then(text => { throw new Error(text) }); // Вывести текст ошибки, если есть
                     }
-                }
-            }
+                })
+                .catch(error => {
+                    // Обработать ошибки сети или исключения, выброшенные на предыдущих этапах
+                    console.error('Произошла ошибка при удалении пользователя:', error);
+                });
 
-            // Отправка DELETE-запроса на контроллер
-            xhr.open('POST', '/admin/delete/' + userId, true);
-            xhr.send();
-
+            // Закрытие модального окна и обновление страницы следует выполнять только после получения подтверждения об успешном удалении
+            // Поэтому эти действия необходимо включить в цепочку промисов выше, если это требуется
         });
 
 
