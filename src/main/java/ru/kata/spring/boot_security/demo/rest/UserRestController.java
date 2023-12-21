@@ -27,10 +27,8 @@ public class UserRestController {
     public ResponseEntity<String> updateUser(@PathVariable Long userId, @RequestBody String userJson) {
 
         System.out.println(userJson + " " + userId);
-        // Здесь вы можете добавить логику обновления пользователя в базе данных.
 
-        // Предположим, что вся логика обновления пользователя прошла успешно.
         return ResponseEntity.ok("Пользователь успешно обновлен!");
     }
 }
-// Другие методы контроллера...
+

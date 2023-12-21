@@ -11,12 +11,15 @@ import java.util.List;
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
 
-    @Query(value = "FROM User u JOIN FETCH u.role r WHERE  u.email = :email" )
+    @Query(value = "FROM User u JOIN FETCH u.role r WHERE  u.email = :email")
     User findUserByEmail(String email);
+
     @Query(value = "FROM User u LEFT JOIN FETCH u.role r")
     List<User> findAll();
-    @Query(value = "FROM User u JOIN FETCH u.role r WHERE  u.id = :id" )
-    User findUsersById (Long id);
+
+    @Query(value = "FROM User u JOIN FETCH u.role r WHERE  u.id = :id")
+    User findUsersById(Long id);
+
     void deleteById(Long id);
 
 

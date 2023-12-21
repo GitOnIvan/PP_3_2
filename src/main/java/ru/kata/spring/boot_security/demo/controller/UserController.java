@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+
 
 
 @Controller
@@ -29,7 +29,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @ModelAttribute ("newUser")
+    @ModelAttribute("newUser")
     public User newUser() {
         return new User();
     }
@@ -59,9 +59,8 @@ public class UserController {
     }
 
 
-
     @GetMapping("/admin")
-    public String getUsersList(ModelMap model, Principal principal){
+    public String getUsersList(ModelMap model, Principal principal) {
 
         if (userService.findAll().isEmpty()) {
 
@@ -93,9 +92,6 @@ public class UserController {
     }
 
 
-
-
-
     @PostMapping("/admin")
     public String createUser(@ModelAttribute("newUser") User addUser) {
         User userAdd = getListOfUsers().stream()
@@ -118,20 +114,16 @@ public class UserController {
     }
 
 
-
     @PostMapping("/admin/edit/{userId}")
     public String updateUser(@PathVariable long userId, @RequestBody String userJson) throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         User user = objectMapper.readValue(userJson, User.class);
 
-         userService.updateUser(userId, user);
+        userService.updateUser(userId, user);
 
         return "redirect:/admin";
     }
-
-
-
 
 
 }

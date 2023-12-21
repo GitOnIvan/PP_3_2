@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.service;
 
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,7 +39,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepo.findUserByEmail(email);
-        if(user == null) {
+        if (user == null) {
             throw new UsernameNotFoundException(String.format("User with '%s' not found", email));
         }
         return user;
@@ -59,9 +58,6 @@ public class UserService implements UserDetailsService {
     }
 
 
-
-
-
     // User methods
 
     @Transactional
@@ -70,11 +66,9 @@ public class UserService implements UserDetailsService {
     }
 
 
-
-
     @Transactional
-    public List<User> findAllUsers(){
-       return userRepo.findAll()
+    public List<User> findAllUsers() {
+        return userRepo.findAll()
                 .stream()
                 .sorted(Comparator.comparing(User::getId))
                 .distinct()
@@ -84,10 +78,10 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void addNewUser (User user) {
+    public void addNewUser(User user) {
 
-            user.setPass(passwordEncoder.encode(user.getPass()));
-            userRepo.save(user);
+        user.setPass(passwordEncoder.encode(user.getPass()));
+        userRepo.save(user);
     }
 
     @Transactional
@@ -98,11 +92,9 @@ public class UserService implements UserDetailsService {
 
 
     @Transactional
-    public User findUsersById (Long id) {
+    public User findUsersById(Long id) {
         return userRepo.findUsersById(id);
     }
-
-
 
 
     @Transactional
@@ -128,8 +120,6 @@ public class UserService implements UserDetailsService {
 
 
     }
-
-
 
 
 }
