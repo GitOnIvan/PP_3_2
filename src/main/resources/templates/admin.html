@@ -261,7 +261,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-outline-success" id="userEditButton">Edit user</button>
+                    <button type="button" class="btn btn-outline-success" id="userEditButton" >Edit user</button>
                 </div>
             </form>
         </div>
@@ -389,7 +389,6 @@
 
 
     document.addEventListener('DOMContentLoaded', function () {
-
         const myNextModal = document.getElementById('editModal');
         myNextModal.addEventListener('show.bs.modal', function (event) {
             const button = event.relatedTarget;
@@ -398,10 +397,15 @@
             document.getElementById('userSurnameEdit').value = button.getAttribute('data-lastName');
             document.getElementById('userAgeEdit').value = button.getAttribute('data-age');
             document.getElementById('emailEdit').value = button.getAttribute('data-email');
+        });
 
-            const modalButton = document.getElementById('userEditButton');
+        const modalButton = document.getElementById('userEditButton');
+        const form = document.getElementById('yourFormId'); // Убедитесь, что у вас есть id формы
 
-            modalButton.addEventListener('click', function () {
+        modalButton.addEventListener('click', function () {
+            // Перед отправкой данных проверяем валидность формы
+            if (form.checkValidity()) {
+                // Если форма валидна, отправляем данные
                 const userId = document.getElementById('userIdEdit').value;
                 const userName = document.getElementById('userNameEdit').value;
                 const userSurname = document.getElementById('userSurnameEdit').value;
@@ -442,6 +446,10 @@
                         .then(response => {
                             if (response.ok) {
                                 console.log('Пользователь успешно обновлен!');
+
+
+
+
                                 location.reload(); // Refresh page to reflect changes
                             } else {
                                 console.error('Ошибка при обновлении пользователя!');
@@ -459,13 +467,11 @@
                     console.error('selectedOptions is undefined');
 
                 }
-
-
-            });
-
+            } else {
+                // Если форма не валидна, то вызываем reportValidity, чтобы показать сообщения об ошибках
+                form.reportValidity();
+            }
         });
-
-
     });
 </script>
 
