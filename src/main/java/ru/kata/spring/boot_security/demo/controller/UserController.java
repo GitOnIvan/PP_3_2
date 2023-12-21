@@ -16,7 +16,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Set;
 
 
 @Controller
@@ -95,6 +95,7 @@ public class UserController {
 
 
 
+
     @PostMapping("/admin")
     public String createUser(@ModelAttribute("newUser") User addUser) {
         User userAdd = getListOfUsers().stream()
@@ -107,8 +108,6 @@ public class UserController {
 
         return "redirect:/admin";
     }
-
-
 
 
     @PostMapping("/admin/delete/{userId}")
@@ -130,6 +129,39 @@ public class UserController {
 
         return "redirect:/admin";
     }
+
+
+
+
+
+
+
+
+
+
+// Delete this method after fixes !!!
+    @GetMapping("/")
+    public String getUsersListTest(ModelMap model, Principal principal) {
+
+
+        if (getListOfUsers() == null) {
+            List<User> users = new ArrayList<>();
+            model.addAttribute("loggedUserDetails", users);
+        } else {
+            model.addAttribute("loggedUserDetails", getListOfUsers());
+        }
+
+
+
+
+        model.addAttribute("test",getListOfUsers().stream()
+                .filter(user -> user.getEmail().equals("workarthuron@gmail.com"))
+                .findAny().orElse(null));
+
+
+        return "index";
+    }
+
 
 
 
