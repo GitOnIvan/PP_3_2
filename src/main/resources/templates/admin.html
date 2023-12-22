@@ -126,32 +126,56 @@
                     <form class="needs-validation" novalidate th:method="post" th:action="@{/admin}" th:object="${newUser}">
                         <div class="div-add-user">
                             <div class="form-floating mb-3">
+
                                 <input type="text" class="form-control" id="userNameA" placeholder="First Name"
-                                       th:field="*{firstName}" required>
+                                       th:field="*{firstName}"
+                                       required minlength="2" maxlength="30" pattern="[^0-9]*">
+                                <div class="invalid-feedback">
+                                    The 'Name' should be between 2 and 30 characters long and should not contain numbers.
+                                </div>
                                 <label for="userNameA">First Name</label>
+
                             </div>
                             <div class="form-floating mb-3">
+
                                 <input type="text" class="form-control" id="userSurnameA" placeholder="Last Name"
-                                       th:field="*{lastName}" required>
+                                       th:field="*{lastName}"
+                                       required minlength="2" maxlength="30" pattern="[^0-9]*">
+                                <div class="invalid-feedback">
+                                    The 'Last Name' should be between 2 and 30 characters long and should not contain numbers.
+                                </div>
                                 <label for="userSurnameA">Last Name</label>
+
                             </div>
                             <div class="form-floating mb-3">
+
                                 <input type="email" class="form-control" id="emailA" placeholder="Email"
-                                       th:field="*{email}" required>
+                                       th:field="*{email}" required  pattern="\S+" minlength="5" maxlength="30">
+                                <div class="invalid-feedback">
+                                    The 'Email' should be between 5 and 30 characters long and should not contain spaces.
+                                </div>
                                 <label for="emailA">Email</label>
+
                             </div>
                             <div class="form-floating mb-3">
+
                                 <input type="password" class="form-control" id="PasswordA" placeholder="Password"
-                                       th:field="*{pass}" required>
+                                       th:field="*{pass}" required  pattern="\S+" minlength="4" maxlength="20">
+                                <div class="invalid-feedback">
+                                    The 'Password' should be between 4 and 20 characters long and should not contain spaces.
+                                </div>
                                 <label for="PasswordA">Password</label>
+
                             </div>
                             <div class="form-floating mb-3">
+
                                 <input type="number" class="form-control" id="userAgeA" placeholder="Age"
                                        th:field="*{age}" required min="0" max="200">
                                 <div class="invalid-feedback">
-                                    Пожалуйста, введите число от 0 до 200.
+                                    The 'Age' should be between 0 and 200.
                                 </div>
                                 <label for="userAgeA">Age</label>
+
                             </div>
                             <div class="form-floating mb-3">
                                 <select class="form-select" id="SexA" aria-label="Sex" th:field="*{gender}" required>
@@ -213,26 +237,51 @@
                         <label for="userIdEdit">ID</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userNameEdit" placeholder="userName" required>
+
+                        <input type="text" class="form-control" id="userNameEdit" placeholder="userName"
+                               required minlength="2" maxlength="30" pattern="[^0-9]*">
+                        <div class="invalid-feedback">
+                            The 'Name' should be between 2 and 30 characters long and should not contain numbers.
+                        </div>
                         <label for="userNameEdit">First Name</label>
+
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userSurnameEdit" placeholder="userSurname" required>
+
+                        <input type="text" class="form-control" id="userSurnameEdit" placeholder="userSurname"
+                               required minlength="2" maxlength="30" pattern="[^0-9]*">
+                        <div class="invalid-feedback">
+                            The 'Last Name' should be between 2 and 30 characters long and should not contain numbers.
+                        </div>
                         <label for="userSurnameEdit">Last Name</label>
+
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="emailEdit" placeholder="name@mail.com" required>
+
+                        <input type="email" class="form-control" id="emailEdit" placeholder="name@mail.com"
+                               required  pattern="\S+" minlength="5" maxlength="30">
+                        <div class="invalid-feedback">
+                            The 'Email' should be between 5 and 30 characters long and should not contain spaces.
+                        </div>
                         <label for="emailEdit">Email</label>
+
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="PasswordEdit" placeholder="password" required>
+
+                        <input type="password" class="form-control" id="PasswordEdit" placeholder="password"
+                               required  pattern="\S+" minlength="4" maxlength="20">
+                        <div class="invalid-feedback">
+                            The 'Password' should be between 4 and 20 characters long and should not contain spaces.
+                        </div>
                         <label for="PasswordEdit">Password</label>
+
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="userAgeEdit" placeholder="userAge" required min="0" max="200">
+                        <input type="number" class="form-control" id="userAgeEdit" placeholder="userAge"
+                               required min="0" max="200">
                         <div class="invalid-feedback">
-                            Пожалуйста, введите число от 0 до 200.
+                            The 'Age' should be between 0 and 200.
                         </div>
                         <label for="userAgeEdit">Age</label>
                     </div>
