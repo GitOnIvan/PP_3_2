@@ -32,7 +32,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/index").permitAll()
+
+                //Изменить его потом на "/"
+                .antMatchers("/api/v1/**", "/index").permitAll()
+
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successUserHandler)

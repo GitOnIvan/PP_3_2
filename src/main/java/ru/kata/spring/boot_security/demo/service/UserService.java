@@ -78,15 +78,17 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void addNewUser(User user) {
+    public User addNewUser(User user) {
 
         user.setPass(passwordEncoder.encode(user.getPass()));
         userRepo.save(user);
+        return user;
     }
 
     @Transactional
     public void deleteById(Long id) {
         userRepo.deleteById(id);
+
 
     }
 
@@ -98,7 +100,7 @@ public class UserService implements UserDetailsService {
 
 
     @Transactional
-    public void updateUser(long id, User updatedUser) {
+    public User updateUser(long id, User updatedUser) {
         User userToBeUpdate = userRepo.findUsersById(id);
 
 
@@ -119,6 +121,7 @@ public class UserService implements UserDetailsService {
         userToBeUpdate.setStatus(updatedUser.getStatus());
 
 
+        return userToBeUpdate;
     }
 
 

@@ -42,8 +42,9 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @NotNull(message = "Age should not be empty!")
-    @PositiveOrZero(message = "Age should not be below zero!")
+    @NotNull(message = "The 'Age' should not be empty!")
+    @PositiveOrZero(message = "The 'Age' should be between 0 and 200")
+    @Max(value=200, message="The 'Age' should be between 0 and 200")
     @Column(name = "age")
     private Integer age;
 
