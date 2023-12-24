@@ -4,8 +4,6 @@ package ru.kata.spring.boot_security.demo.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,12 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
-
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 
 
 @Controller
@@ -50,15 +46,15 @@ public class UserController {
         model.addAttribute("loggedUser", authToken);
 
 
-        if (userService.findUserByEmail(principal.getName()) == null) {
-            List<User> usersList = new ArrayList<>();
-            model.addAttribute("loggedUserDetails", usersList);
-
-        } else {
-            List<User> usersList = new ArrayList<>();
-            usersList.add(userService.findUserByEmail(principal.getName()));
-            model.addAttribute("loggedUserDetails", usersList);
-        }
+//        if (userService.findUserByEmail(principal.getName()) == null) {
+//            List<User> usersList = new ArrayList<>();
+//            model.addAttribute("loggedUserDetails", usersList);
+//
+//        } else {
+//            List<User> usersList = new ArrayList<>();
+//            usersList.add(userService.findUserByEmail(principal.getName()));
+//            model.addAttribute("loggedUserDetails", usersList);
+//        }
 
         return "user";
     }
@@ -73,25 +69,22 @@ public class UserController {
             userService.addRole((new Role("ROLE_USER")));
         }
 
-
-        model.addAttribute("allRoles", userService.findAll());
-
-
-
         UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) principal;
         model.addAttribute("loggedUser", authToken);
 
 
-        if (userService.findAllUsers() == null) {
-            List<User> usersList = new ArrayList<>();
-            usersList.add(new User());
-
-            model.addAttribute("loggedUserDetails", usersList);
-
-        } else {
-            List<User> usersList = userService.findAllUsers();
-            model.addAttribute("loggedUserDetails", usersList);
-        }
+//        model.addAttribute("allRoles", userService.findAll());
+//
+//        if (userService.findAllUsers() == null) {
+//            List<User> usersList = new ArrayList<>();
+//            usersList.add(new User());
+//
+//            model.addAttribute("loggedUserDetails", usersList);
+//
+//        } else {
+//            List<User> usersList = userService.findAllUsers();
+//            model.addAttribute("loggedUserDetails", usersList);
+//        }
 
 
         return "admin";

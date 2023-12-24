@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -20,13 +21,39 @@ public class UserRestController {
     }
 
 
+    @GetMapping("/test/user")
+    public ResponseEntity<User> getByEmail(Principal principal) {
+
+        return new ResponseEntity<>(userService.findUserByEmail(principal.getName()), HttpStatus.OK);
+    }
 
 
-    @GetMapping("/users")
+    @GetMapping("/test/users")
     public ResponseEntity<List<User>> getUserList() {
 
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

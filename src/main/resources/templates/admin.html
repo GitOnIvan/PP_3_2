@@ -75,48 +75,6 @@
                             </tr>
                             </thead>
                             <tbody class="black-div-text">
-                            <tr th:each=" usr : ${loggedUserDetails}">
-
-                                <td th:text="${usr.id}">id</td>
-                                <td th:text="${usr.firstName}">name</td>
-                                <td th:text="${usr.lastName}">surname</td>
-                                <td th:text="${usr.age}">age</td>
-                                <td th:text="${usr.gender}">gender</td>
-                                <td th:text="${usr.email}">email</td>
-                                <td>
-                                    <span th:each=" roles, status : ${usr.role}">
-                                    <span th:text="${#strings.substringAfter(roles.name, '_')}"></span>
-                                    <span th:unless="${status.last}">&nbsp;</span>
-                                    </span>
-                                </td>
-                                <td th:text="${usr.status}">status</td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-success"
-                                            data-bs-toggle="modal" data-bs-target="#editModal"
-                                            th:data-id="${usr.id}"
-                                            th:data-firstName="${usr.firstName}"
-                                            th:data-lastName="${usr.lastName}"
-                                            th:data-age="${usr.age}"
-                                            th:data-email="${usr.email}">
-                                        Edit
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-outline-danger"
-                                            data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                            th:data-id="${usr.id}"
-                                            th:data-firstName="${usr.firstName}"
-                                            th:data-lastName="${usr.lastName}"
-                                            th:data-age="${usr.age}"
-                                            th:data-gender="${usr.gender}"
-                                            th:data-email="${usr.email}"
-                                            th:data-role="${usr.role}"
-                                            th:data-status="${usr.status}">
-                                        Delete
-
-                                    </button>
-                                </td>
-                            </tr>
 
                             </tbody>
                         </table>
@@ -550,6 +508,113 @@
                 }, false)
             })
     })()
+    // НОВАЯ РЕАЛИЗАЦИЯ КОДА
+
+    // Функция для создания строки таблицы
+    function createTableRow(userData) {
+        const tr = document.createElement('tr');
+
+        // Колонка id
+        const tdID = document.createElement('td');
+        tdID.textContent = userData.id;
+        tr.appendChild(tdID);
+
+        // Колонка firstName
+        const tdFirstName = document.createElement('td');
+        tdFirstName.textContent = userData.firstName;
+        tr.appendChild(tdFirstName);
+
+        // Колонка lastName
+        const tdLastName = document.createElement('td');
+        tdLastName.textContent = userData.lastName;
+        tr.appendChild(tdLastName);
+
+        // Колонка age
+        const tdAge = document.createElement('td');
+        tdAge.textContent = userData.age;
+        tr.appendChild(tdAge);
+
+        // Колонка Gender
+        const tdGender = document.createElement('td');
+        tdGender.textContent = userData.gender;
+        tr.appendChild(tdGender);
+
+        // Колонка email
+        const tdEmail = document.createElement('td');
+        tdEmail.textContent = userData.email;
+        tr.appendChild(tdEmail);
+
+        // Колонка Roles
+        const tdRoles = document.createElement('td');
+        // Удаление префикса "ROLE_" и соединение ролей через запятую
+        tdRoles.textContent = userData.role.map(role => role.name.replace('ROLE_', '')).join(', ');
+        tr.appendChild(tdRoles);
+
+        // Колонка Status
+        const tdStatus = document.createElement('td');
+        tdStatus.textContent = userData.status;
+        tr.appendChild(tdStatus);
+
+
+        // Колонка с кнопкой Редактировать
+        const tdEdit = document.createElement('td');
+        const btnEdit = document.createElement('button');
+        btnEdit.textContent = 'Редактировать';
+        btnEdit.className = 'btn btn-primary'; // Добавление классов Bootstrap
+        btnEdit.addEventListener('click', function() {
+            // Здесь логика для редактирования пользователя
+            console.log(`Редактирование пользователя: ${userData.id}`);
+        });
+        tdEdit.appendChild(btnEdit);
+        tr.appendChild(tdEdit);
+
+        // Колонка с кнопкой Удалить
+        const tdDelete = document.createElement('td');
+        const btnDelete = document.createElement('button');
+        btnDelete.textContent = 'Удалить';
+        btnDelete.addEventListener('click', function() {
+            // Здесь логика для удаления пользователя
+            console.log(`Удаление пользователя: ${userData.id}`);
+        });
+        tdDelete.appendChild(btnDelete);
+        tr.appendChild(tdDelete);
+
+        return tr;
+    }
+
+    // Функция для заполнения таблицы данными
+    function populateTable(usersData) {
+        const tableBody = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+
+        // Очистка текущего содержимого tbody
+        tableBody.innerHTML = '';
+
+        // Перебор массива пользователей и создание строки таблицы для каждого
+        usersData.forEach(user => {
+            tableBody.appendChild(createTableRow(user));
+        });
+    }
+
+    // Вызов fetch для получения данных
+    fetch('/api/v1/test/users') // Изменил URL для примера, предполагая, что он возвращает массив пользователей
+        .then(response => response.json())
+        .then(data => {
+            // Заполнение таблицы данными
+            populateTable(data); // Здесь предполагается, что data - это массив пользователей
+        })
+        .catch(error => {
+            console.error('Ошибка при получении данных:', error);
+        });
+
+
+
+
+
+
+
+
+
+
 </script>
 
 
