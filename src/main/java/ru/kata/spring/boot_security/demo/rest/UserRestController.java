@@ -34,7 +34,7 @@ public class UserRestController {
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/users/{userId}")
+    @DeleteMapping("/test/users/{userId}")
     public String deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteById(userId);
         return "User with ID " + userId + " was deleted!";
@@ -42,6 +42,15 @@ public class UserRestController {
     }
 
 
+    @PutMapping("/test/users")
+    public ResponseEntity<User> updateUser(@RequestBody User user, @RequestParam long id) {
+
+
+        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
+
+
+
+    }
 
 
 
@@ -81,6 +90,11 @@ public class UserRestController {
         return new ResponseEntity<>(userService.addNewUser(user), HttpStatus.OK);
 
     }
+
+
+
+
+
 
 
 

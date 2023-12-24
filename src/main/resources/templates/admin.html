@@ -187,17 +187,17 @@
             </div>
 
 
-            <form id="yourFormId" class="needs-validation" novalidate>
+            <form id="editUserForm" class="needs-validation" novalidate>
                 <div class="modal-body">
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="editUserId" placeholder="userID" disabled>
+                        <input type="text" class="form-control" id="editUserId" placeholder="userID" disabled name="editUserId">
                         <label for="editUserId">ID</label>
                     </div>
                     <div class="form-floating mb-3">
 
                         <input type="text" class="form-control" id="editUserFirstName" placeholder="userName"
-                               required minlength="2" maxlength="30" pattern="[^0-9]*">
+                               required minlength="2" maxlength="30" pattern="[^0-9]*" name="editUserFirstName">
                         <div class="invalid-feedback">
                             The 'Name' should be between 2 and 30 characters long and should not contain numbers.
                         </div>
@@ -207,7 +207,7 @@
                     <div class="form-floating mb-3">
 
                         <input type="text" class="form-control" id="editUserLastName" placeholder="userSurname"
-                               required minlength="2" maxlength="30" pattern="[^0-9]*">
+                               required minlength="2" maxlength="30" pattern="[^0-9]*" name="editUserLastName">
                         <div class="invalid-feedback">
                             The 'Last Name' should be between 2 and 30 characters long and should not contain numbers.
                         </div>
@@ -217,7 +217,7 @@
                     <div class="form-floating mb-3">
 
                         <input type="email" class="form-control" id="editUserEmail" placeholder="name@mail.com"
-                               required  pattern="\S+" minlength="5" maxlength="30">
+                               required  pattern="\S+" minlength="5" maxlength="30" name="editUserEmail">
                         <div class="invalid-feedback">
                             The 'Email' should be between 5 and 30 characters long and should not contain spaces.
                         </div>
@@ -227,7 +227,7 @@
                     <div class="form-floating mb-3">
 
                         <input type="password" class="form-control" id="editUserPass" placeholder="password"
-                               required  pattern="\S+" minlength="4" maxlength="20">
+                               required  pattern="\S+" minlength="4" maxlength="20" name="editUserPass">
                         <div class="invalid-feedback">
                             The 'Password' should be between 4 and 20 characters long and should not contain spaces.
                         </div>
@@ -237,7 +237,7 @@
 
                     <div class="form-floating mb-3">
                         <input type="number" class="form-control" id="editUserAge" placeholder="userAge"
-                               required min="0" max="200">
+                               required min="0" max="200" name="editUserAge">
                         <div class="invalid-feedback">
                             The 'Age' should be between 0 and 200.
                         </div>
@@ -245,7 +245,7 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="editUserGender" aria-label="Sex" required>
+                        <select class="form-select" id="editUserGender" aria-label="Sex" required name="editUserGender">
                             <option value="F">Female</option>
                             <option value="M">Male</option>
                         </select>
@@ -253,7 +253,7 @@
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="editUserStatus" aria-label="Status" required>
+                        <select class="form-select" id="editUserStatus" aria-label="Status" required name="editUserStatus">
                             <option value="ACTIVE">ACTIVE</option>
                             <option value="BANNED">BANNED</option>
                         </select>
@@ -261,10 +261,9 @@
                     </div>
 
                     <div class="form-floating mb-3" >
-                        <select class=" form-select" id="editUserRole" multiple required>
-                            <th:block th:each="role :${allRoles}">
-                                <option th:text="${role.name}" th:value="${role.name}" ></option>
-                            </th:block>
+                        <select class=" form-select" id="editUserRole" multiple required name="editUserRole">
+                            <option value="ROLE_USER">USER</option>
+                            <option value="ROLE_ADMIN">ADMIN</option>
                         </select>
                         <label for="editUserRole" hidden="hidden">User roles</label>
                     </div>
@@ -274,7 +273,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-outline-success" id="userEditButton" >Edit user</button>
+                    <button type="submit" class="btn btn-outline-success" id="confirmEditButton">Edit user</button>
                 </div>
             </form>
         </div>
@@ -363,7 +362,28 @@
 
 <script>
 
-    // НОВАЯ РЕАЛИЗАЦИЯ КОДА
+
+
+
+    //Скрипт включающий валидацию бустрапа
+
+    window.addEventListener('load', function () {
+        // Получаем все формы, для которых мы хотим применить пользовательскую валидацию Bootstrap
+        var forms = document.getElementsByClassName('needs-validation');
+
+        // Перебираем их и предотвращаем отправку
+        Array.prototype.filter.call(forms, function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated'); // добавляем класс для показа валидационных сообщений
+            }, false);
+        });
+    }, false);
+
 
     // Функция для создания строки таблицы
     function createTableRow(userData) {
@@ -430,7 +450,7 @@
         btnEdit.dataset.status = userData.status;
 
         // Обработчик события для кнопки Редактировать
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             if (event.target.matches('.btn-outline-success[data-bs-toggle="modal"]')) {
                 const id = event.target.dataset.id;
                 const firstName = event.target.dataset.firstName;
@@ -477,7 +497,7 @@
 
 
         // Обработчик события для кнопки Удалить
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             if (event.target.matches('.btn-outline-danger[data-bs-toggle="modal"]')) {
                 const id = event.target.dataset.id;
                 const firstName = event.target.dataset.firstName;
@@ -534,16 +554,14 @@
         });
 
 
-
-
     // Предполагается, что у вас есть кнопка с id 'confirmDeleteButton' в модальном окне
     const confirmDeleteButton = document.getElementById('confirmDeleteButton');
 
-    confirmDeleteButton.addEventListener('click', function() {
+    confirmDeleteButton.addEventListener('click', function () {
         const deleteModal = document.getElementById('deleteModal');
         const userId = deleteModal.querySelector('#deleteUserId').value;
 
-        fetch(`/api/v1/users/${userId}`, {
+        fetch(`/api/v1/test/users/${userId}`, {
             method: 'DELETE'
         })
             .then(response => {
@@ -565,13 +583,94 @@
             });
     });
 
+    // Функция для обновления пользователя
+
+    document.getElementById('editUserForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // предотвращаем стандартную отправку формы
+        if (!this.checkValidity()) {
+            event.stopPropagation(); // останавливаем всплытие события
+            this.classList.add('was-validated'); // добавляем класс для показа валидационных сообщений
+        } else {
+            // Получаем элементы формы в модальном окне
+            const editModal = document.getElementById('editModal');
+            const id = editModal.querySelector('#editUserId').value;
+            const firstName = editModal.querySelector('#editUserFirstName').value;
+            const lastName = editModal.querySelector('#editUserLastName').value;
+            const email = editModal.querySelector('#editUserEmail').value;
+            const pass = editModal.querySelector('#editUserPass').value;
+            const age = editModal.querySelector('#editUserAge').value;
+            const gender = editModal.querySelector('#editUserGender').value;
+            const roles = Array.from(editModal.querySelectorAll('select[name="editUserRole"] option:checked'), option => option.value);
+            const status = editModal.querySelector('#editUserStatus').value;
 
 
+            // Подготавливаем объект пользователя для отправки
+            const userData = {
+
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                pass: pass,
+                age: age,
+                gender: gender,
+                role: roles,
+                status: status
 
 
+            };
 
 
+            // Отправляем запрос PUT на сервер
+            fetch('/api/v1/test/users?id=' + id, { // Добавляем id пользователя как параметр запроса
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData), // Преобразуем данные пользователя в JSON
+            })
+                .then(response => response.json())
+                .then(updatedUser => {
+                    // Обновляем строку в таблице данными из ответа
+                    updateTableRow(updatedUser);
+                    var modalInstance = bootstrap.Modal.getInstance(editModal); // Получаем экземпляр модального окна
+                    modalInstance.hide(); // Закрытие модального окна
+                })
+                .catch(error => {
+                    console.error('Ошибка при обновлении пользователя:', error);
+                });
 
+        }
+        this.classList.add('was-validated'); // добавляем класс для показа валидационных сообщений
+    }, false);
+
+    const confirmEditButton = document.getElementById('confirmEditButton'); // Убедитесь, что у кнопки правильный id
+    confirmEditButton.addEventListener('click', function () {
+        const form = document.getElementById('editUserForm');
+        form.requestSubmit(); // инициируем отправку формы
+    });
+
+
+    // Функция для обновления строки таблицы
+    function updateTableRow(user) {
+        // Ищем строку таблицы по атрибуту data-user-id
+        const tr = document.querySelector(`tr[data-user-id="${user.id}"]`);
+        if (tr) {
+            const cells = tr.children;
+            // Обновляем данные в ячейках (td), предполагая, что порядок столбцов известен
+            cells[0].textContent = user.id;
+            cells[1].textContent = user.firstName;
+            cells[2].textContent = user.lastName;
+            cells[3].textContent = user.age;
+            cells[4].textContent = user.gender;
+            cells[5].textContent = user.email;
+            // Преобразуем массив ролей в строку и обновляем ячейку
+            cells[6].textContent = user.role.map(roleEntity => roleEntity.name.replace('ROLE_', '')).join(', ');
+
+            cells[7].textContent = user.status;
+
+
+        }
+    }
 
 
 </script>
