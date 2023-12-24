@@ -15,7 +15,6 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -35,9 +34,6 @@ public class UserController {
         return new User();
     }
 
-    public List<User> getListOfUsers() {
-        return userService.findAllUsers();
-    }
 
 
     @GetMapping("/user")
@@ -45,19 +41,10 @@ public class UserController {
         UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) principal;
         model.addAttribute("loggedUser", authToken);
 
-
-//        if (userService.findUserByEmail(principal.getName()) == null) {
-//            List<User> usersList = new ArrayList<>();
-//            model.addAttribute("loggedUserDetails", usersList);
-//
-//        } else {
-//            List<User> usersList = new ArrayList<>();
-//            usersList.add(userService.findUserByEmail(principal.getName()));
-//            model.addAttribute("loggedUserDetails", usersList);
-//        }
-
         return "user";
     }
+
+
 
 
     @GetMapping("/admin")
@@ -69,26 +56,32 @@ public class UserController {
             userService.addRole((new Role("ROLE_USER")));
         }
 
+        model.addAttribute("allRoles", userService.findAll());
+
         UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) principal;
         model.addAttribute("loggedUser", authToken);
 
-
-//        model.addAttribute("allRoles", userService.findAll());
-//
-//        if (userService.findAllUsers() == null) {
-//            List<User> usersList = new ArrayList<>();
-//            usersList.add(new User());
-//
-//            model.addAttribute("loggedUserDetails", usersList);
-//
-//        } else {
-//            List<User> usersList = userService.findAllUsers();
-//            model.addAttribute("loggedUserDetails", usersList);
-//        }
-
-
         return "admin";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public List<User> getListOfUsers() {
+        return userService.findAllUsers();
+    }
+
 
 
     @PostMapping("/admin")

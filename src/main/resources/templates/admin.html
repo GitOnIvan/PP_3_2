@@ -187,86 +187,86 @@
             </div>
 
 
-
             <form id="yourFormId" class="needs-validation" novalidate>
                 <div class="modal-body">
+
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userIdEdit" placeholder="userID" disabled>
-                        <label for="userIdEdit">ID</label>
+                        <input type="text" class="form-control" id="editUserId" placeholder="userID" disabled>
+                        <label for="editUserId">ID</label>
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="text" class="form-control" id="userNameEdit" placeholder="userName"
+                        <input type="text" class="form-control" id="editUserFirstName" placeholder="userName"
                                required minlength="2" maxlength="30" pattern="[^0-9]*">
                         <div class="invalid-feedback">
                             The 'Name' should be between 2 and 30 characters long and should not contain numbers.
                         </div>
-                        <label for="userNameEdit">First Name</label>
+                        <label for="editUserFirstName">First Name</label>
 
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="text" class="form-control" id="userSurnameEdit" placeholder="userSurname"
+                        <input type="text" class="form-control" id="editUserLastName" placeholder="userSurname"
                                required minlength="2" maxlength="30" pattern="[^0-9]*">
                         <div class="invalid-feedback">
                             The 'Last Name' should be between 2 and 30 characters long and should not contain numbers.
                         </div>
-                        <label for="userSurnameEdit">Last Name</label>
+                        <label for="editUserLastName">Last Name</label>
 
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="email" class="form-control" id="emailEdit" placeholder="name@mail.com"
+                        <input type="email" class="form-control" id="editUserEmail" placeholder="name@mail.com"
                                required  pattern="\S+" minlength="5" maxlength="30">
                         <div class="invalid-feedback">
                             The 'Email' should be between 5 and 30 characters long and should not contain spaces.
                         </div>
-                        <label for="emailEdit">Email</label>
+                        <label for="editUserEmail">Email</label>
 
                     </div>
                     <div class="form-floating mb-3">
 
-                        <input type="password" class="form-control" id="PasswordEdit" placeholder="password"
+                        <input type="password" class="form-control" id="editUserPass" placeholder="password"
                                required  pattern="\S+" minlength="4" maxlength="20">
                         <div class="invalid-feedback">
                             The 'Password' should be between 4 and 20 characters long and should not contain spaces.
                         </div>
-                        <label for="PasswordEdit">Password</label>
+                        <label for="editUserPass">Password</label>
 
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="userAgeEdit" placeholder="userAge"
+                        <input type="number" class="form-control" id="editUserAge" placeholder="userAge"
                                required min="0" max="200">
                         <div class="invalid-feedback">
                             The 'Age' should be between 0 and 200.
                         </div>
-                        <label for="userAgeEdit">Age</label>
+                        <label for="editUserAge">Age</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="SexEdit" aria-label="Sex" required>
+                        <select class="form-select" id="editUserGender" aria-label="Sex" required>
                             <option value="F">Female</option>
                             <option value="M">Male</option>
                         </select>
-                        <label for="SexEdit">Sex</label>
+                        <label for="editUserGender">Sex</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="StatusEdit" aria-label="Status" required>
+                        <select class="form-select" id="editUserStatus" aria-label="Status" required>
                             <option value="ACTIVE">ACTIVE</option>
                             <option value="BANNED">BANNED</option>
                         </select>
-                        <label for="StatusEdit">Status</label>
+                        <label for="editUserStatus">Status</label>
                     </div>
 
                     <div class="form-floating mb-3" >
-                        <select class=" form-select" id="userRoleEdite" multiple required>
+                        <select class=" form-select" id="editUserRole" multiple required>
                             <th:block th:each="role :${allRoles}">
                                 <option th:text="${role.name}" th:value="${role.name}" ></option>
                             </th:block>
                         </select>
-                        <label for="userRoleEdite" hidden="hidden">User roles</label>
+                        <label for="editUserRole" hidden="hidden">User roles</label>
                     </div>
 
 
@@ -289,43 +289,54 @@
                 <h5 class="modal-title" id="deleteModalLabel">Delete user</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
+
+
             <form>
+
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userIdDelete" placeholder="userID" disabled >
-                        <label for="userIdDelete">ID</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userNameDelete" placeholder="userName" disabled >
-                        <label for="userNameDelete">First Name</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userSurnameDelete" placeholder="userSurname" disabled >
-                        <label for="userSurnameDelete">Last Name</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="email" class="form-control" id="emailDelete" placeholder="name@mail.com" disabled >
-                        <label for="emailDelete">Email</label>
+                        <input type="text" class="form-control" id="deleteUserId" placeholder="userID" disabled >
+                        <label for="deleteUserId">ID</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="number" class="form-control" id="userAgeDelete" placeholder="userAge" disabled >
-                        <label for="userAgeDelete">Age</label>
+                        <input type="text" class="form-control" id="deleteUserFirstName" placeholder="userName" disabled >
+                        <label for="deleteUserFirstName">First Name</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="SexDelete" placeholder="userAge" disabled >
-                        <label for="SexDelete">Age</label>
+                        <input type="text" class="form-control" id="deleteUserLastName" placeholder="userSurname" disabled >
+                        <label for="deleteUserLastName">Last Name</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="StatusDelete" placeholder="userAge" disabled >
-                        <label for="StatusDelete">Age</label>
+                        <input type="email" class="form-control" id="deleteUserEmail" placeholder="name@mail.com" disabled >
+                        <label for="deleteUserEmail">Email</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="userRoleDelete" placeholder="userAge" disabled >
-                        <label for="userRoleDelete">Role</label>
+                        <input type="password" class="form-control" id="deleteUserPass" placeholder="userPass" disabled >
+                        <label for="deleteUserPass">Password</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="deleteUserAge" placeholder="userAge" disabled >
+                        <label for="deleteUserAge">Age</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="deleteUserGender" placeholder="userGender" disabled >
+                        <label for="deleteUserGender">Gender</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="deleteUserStatus" placeholder="userStatus" disabled >
+                        <label for="deleteUserStatus">Status</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="deleteUserRole" placeholder="userRoles" disabled >
+                        <label for="deleteUserRole">Role</label>
                     </div>
 
 
@@ -351,163 +362,7 @@
 
 
 <script>
-    const myModal = document.getElementById('deleteModal');
-    myModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget;
-        document.getElementById('userIdDelete').value = button.getAttribute('data-id');
-        document.getElementById('userNameDelete').value = button.getAttribute('data-firstName');
-        document.getElementById('userSurnameDelete').value = button.getAttribute('data-lastName');
-        document.getElementById('userAgeDelete').value = button.getAttribute('data-age');
-        document.getElementById('SexDelete').value = button.getAttribute('data-gender');
-        document.getElementById('emailDelete').value = button.getAttribute('data-email');
-        document.getElementById('StatusDelete').value = button.getAttribute('data-status');
 
-        const roles = button.getAttribute('data-role').split(' ');
-        document.getElementById('userRoleDelete').value = roles.map(role => {
-            return role.replace('[ROLE_', '').replace('ROLE_', ' ').replace(']', '').replace(',', '').replace('[', '')
-        });
-
-        const modalButton = document.getElementById('modalDeleteButton');
-
-        // Обработчик события клика по кнопке в модальном окне
-        modalButton.addEventListener('click', function () {
-            const userId = document.getElementById('userIdDelete').value; // Получаем идентификатор пользователя для удаления
-
-            // Отправка POST-запроса на контроллер с использованием fetch
-            fetch('/admin/delete/' + userId, {
-                method: 'POST',
-            })
-                .then(response => {
-                    if (response.ok) {
-                        // Обработка успешного ответа от сервера
-                        console.log('Пользователь успешно удален!');
-                        location.reload(); // Обновить страницу
-                    } else {
-                        // Обработка ошибки при удалении пользователя
-                        console.error('Ошибка при удалении пользователя!');
-                        return response.text().then(text => { throw new Error(text) }); // Вывести текст ошибки, если есть
-                    }
-                })
-                .catch(error => {
-                    // Обработать ошибки сети или исключения, выброшенные на предыдущих этапах
-                    console.error('Произошла ошибка при удалении пользователя:', error);
-                });
-
-
-        });
-
-
-
-    });
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const myNextModal = document.getElementById('editModal');
-        myNextModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget;
-            document.getElementById('userIdEdit').value = button.getAttribute('data-id');
-            document.getElementById('userNameEdit').value = button.getAttribute('data-firstName');
-            document.getElementById('userSurnameEdit').value = button.getAttribute('data-lastName');
-            document.getElementById('userAgeEdit').value = button.getAttribute('data-age');
-            document.getElementById('emailEdit').value = button.getAttribute('data-email');
-        });
-
-        const modalButton = document.getElementById('userEditButton');
-        const form = document.getElementById('yourFormId'); // Убедитесь, что у вас есть id формы
-
-        modalButton.addEventListener('click', function () {
-            // Перед отправкой данных проверяем валидность формы
-            if (form.checkValidity()) {
-                // Если форма валидна, отправляем данные
-                const userId = document.getElementById('userIdEdit').value;
-                const userName = document.getElementById('userNameEdit').value;
-                const userSurname = document.getElementById('userSurnameEdit').value;
-                const userAge = document.getElementById('userAgeEdit').value;
-                const userGender = document.getElementById('SexEdit').value;
-                const userStatus = document.getElementById('StatusEdit').value;
-                const userPassword = document.getElementById('PasswordEdit').value;
-                const userEmail = document.getElementById('emailEdit').value;
-
-                const selectElement = document.getElementById('userRoleEdite');
-
-
-                if (selectElement.selectedOptions) {
-                    const selectedValues = Array.from(selectElement.selectedOptions).map(option => option.value);
-
-
-                    const user = {
-
-                        firstName: userName,
-                        lastName: userSurname,
-                        gender: userGender,
-                        age: userAge,
-                        status: userStatus,
-                        pass: userPassword,
-                        email: userEmail,
-                        role: selectedValues
-                    };
-
-
-                    // Fetch API usage to send the POST request
-                    fetch('/admin/edit/' + userId, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(user) // stringify the user object before sending
-                    })
-                        .then(response => {
-                            if (response.ok) {
-                                console.log('Пользователь успешно обновлен!');
-
-
-
-
-                                location.reload(); // Refresh page to reflect changes
-                            } else {
-                                console.error('Ошибка при обновлении пользователя!');
-                                return response.text().then(text => {
-                                    throw new Error(text)
-                                });
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Произошла ошибка при обновлении пользователя:', error);
-                        });
-
-
-                } else {
-                    console.error('selectedOptions is undefined');
-
-                }
-            } else {
-                // Если форма не валидна, то вызываем reportValidity, чтобы показать сообщения об ошибках
-                form.reportValidity();
-            }
-        });
-    });
-
-
-    // Пример кода для включения проверки формы в Bootstrap 5
-    (function () {
-        'use strict'
-
-        // Получаем все формы, к которым мы хотим применить стили валидации Bootstrap
-        const forms = document.querySelectorAll('.needs-validation');
-
-        // Проходим по формам и предотвращаем отправку, если есть невалидные поля
-        Array.prototype.slice.call(forms)
-            .forEach(function (form) {
-                form.addEventListener('submit', function (event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-    })()
     // НОВАЯ РЕАЛИЗАЦИЯ КОДА
 
     // Функция для создания строки таблицы
@@ -559,22 +414,91 @@
         // Колонка с кнопкой Редактировать
         const tdEdit = document.createElement('td');
         const btnEdit = document.createElement('button');
-        btnEdit.textContent = 'Редактировать';
-        btnEdit.className = 'btn btn-primary'; // Добавление классов Bootstrap
-        btnEdit.addEventListener('click', function() {
-            // Здесь логика для редактирования пользователя
-            console.log(`Редактирование пользователя: ${userData.id}`);
+        btnEdit.textContent = 'Edit';
+        btnEdit.className = 'btn btn-outline-success'; // Добавление классов Bootstrap
+        btnEdit.setAttribute('data-bs-toggle', 'modal');
+        btnEdit.setAttribute('data-bs-target', '#editModal');
+        btnEdit.dataset.id = userData.id;
+        btnEdit.dataset.firstName = userData.firstName;
+        btnEdit.dataset.lastName = userData.lastName;
+        btnEdit.dataset.email = userData.email;
+        btnEdit.dataset.age = userData.age;
+        btnEdit.dataset.gender = userData.gender;
+        btnEdit.dataset.status = userData.status;
+
+        // Обработчик события для кнопки Редактировать
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('.btn-outline-success[data-bs-toggle="modal"]')) {
+                const id = event.target.dataset.id;
+                const firstName = event.target.dataset.firstName;
+                const lastName = event.target.dataset.lastName;
+                const email = event.target.dataset.email;
+                const pass = event.target.dataset.pass;
+                const age = event.target.dataset.age;
+                const gender = event.target.dataset.gender;
+                const role = event.target.dataset.role;
+                const status = event.target.dataset.status;
+
+
+                // Найдите элементы формы в модальном окне и установите их значения
+                const editModal = document.getElementById('editModal');
+                editModal.querySelector('#editUserId').value = id;
+                editModal.querySelector('#editUserFirstName').value = firstName;
+                editModal.querySelector('#editUserLastName').value = lastName;
+                editModal.querySelector('#editUserEmail').value = email;
+                editModal.querySelector('#editUserAge').value = age;
+                editModal.querySelector('#editUserGender').value = gender;
+                editModal.querySelector('#editUserStatus').value = status;
+            }
         });
+
         tdEdit.appendChild(btnEdit);
         tr.appendChild(tdEdit);
 
-        // Колонка с кнопкой Удалить
+        // Колонка с кнопкой Удаллить
         const tdDelete = document.createElement('td');
         const btnDelete = document.createElement('button');
-        btnDelete.textContent = 'Удалить';
-        btnDelete.addEventListener('click', function() {
-            // Здесь логика для удаления пользователя
-            console.log(`Удаление пользователя: ${userData.id}`);
+        btnDelete.textContent = 'Delete';
+        btnDelete.className = 'btn btn-outline-danger'; // Добавление классов Bootstrap
+        btnDelete.setAttribute('data-bs-toggle', 'modal');
+        btnDelete.setAttribute('data-bs-target', '#deleteModal');
+        btnDelete.dataset.id = userData.id;
+        btnDelete.dataset.firstName = userData.firstName;
+        btnDelete.dataset.lastName = userData.lastName;
+        btnDelete.dataset.email = userData.email;
+        btnDelete.dataset.pass = userData.pass;
+        btnDelete.dataset.age = userData.age;
+        btnDelete.dataset.gender = userData.gender;
+        btnDelete.dataset.status = userData.status;
+        btnDelete.dataset.role = userData.role.map(role => role.name.replace('ROLE_', '')).join(', ');
+
+
+        // Обработчик события для кнопки Удалить
+        document.addEventListener('click', function(event) {
+            if (event.target.matches('.btn-outline-danger[data-bs-toggle="modal"]')) {
+                const id = event.target.dataset.id;
+                const firstName = event.target.dataset.firstName;
+                const lastName = event.target.dataset.lastName;
+                const email = event.target.dataset.email;
+                const pass = event.target.dataset.pass;
+                const age = event.target.dataset.age;
+                const gender = event.target.dataset.gender;
+                const role = event.target.dataset.role;
+                const status = event.target.dataset.status;
+
+
+                // Найдите элементы формы в модальном окне и установите их значения
+                const editModal = document.getElementById('deleteModal');
+                editModal.querySelector('#deleteUserId').value = id;
+                editModal.querySelector('#deleteUserFirstName').value = firstName;
+                editModal.querySelector('#deleteUserLastName').value = lastName;
+                editModal.querySelector('#deleteUserEmail').value = email;
+                editModal.querySelector('#deleteUserPass').value = pass;
+                editModal.querySelector('#deleteUserAge').value = age;
+                editModal.querySelector('#deleteUserGender').value = gender;
+                editModal.querySelector('#deleteUserRole').value = role;
+                editModal.querySelector('#deleteUserStatus').value = status;
+            }
         });
         tdDelete.appendChild(btnDelete);
         tr.appendChild(tdDelete);
