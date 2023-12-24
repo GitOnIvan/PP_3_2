@@ -1,5 +1,4 @@
 package ru.kata.spring.boot_security.demo.rest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
@@ -51,9 +50,9 @@ public class UserRestController {
     }
 
     @DeleteMapping("/users/{userId}")
-    public void deleteUser(@PathVariable("userId") Long userId) {
+    public String deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteById(userId);
-
+        return "User with ID " + userId + "was deleted!";
 
     }
 
