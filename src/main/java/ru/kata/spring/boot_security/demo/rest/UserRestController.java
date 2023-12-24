@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.rest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -21,30 +23,33 @@ public class UserRestController {
 
 
     @GetMapping("/users")
-    public List<User> getUserList() {
+    public ResponseEntity<List<User>> getUserList() {
 
-        return userService.findAllUsers();
+        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
 
 
     @GetMapping("/users/{userId}")
-    public User getById(@PathVariable("userId") long userId) {
+    public ResponseEntity<User> getById(@PathVariable("userId") long userId) {
 
-        return userService.findUsersById(userId);
+        return new ResponseEntity<>(userService.findUsersById(userId), HttpStatus.OK);
     }
 
 
 
     @PostMapping("/users")
-    public User addNewUser(@RequestBody User user) {
-        return userService.addNewUser(user);
+    public ResponseEntity<User> addNewUser(@RequestBody User user) {
+        return new ResponseEntity<>(userService.addNewUser(user), HttpStatus.OK);
+
     }
 
 
     @PutMapping("/users")
-    public User apdateUser(@RequestBody User user, @RequestParam long id) {
-        return userService.updateUser(id, user);
+    public ResponseEntity<User> updateUser(@RequestBody User user, @RequestParam long id) {
+
+        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
+
 
 
     }
