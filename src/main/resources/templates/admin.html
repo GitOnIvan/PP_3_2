@@ -543,7 +543,10 @@
     }
 
     // Вызов fetch для получения данных
-    fetch('/api/v1/test/users') // Изменил URL для примера, предполагая, что он возвращает массив пользователей
+    fetch('/api/v1/test/users', {
+        credentials: 'include' // Эта опция включает отправку cookies и аутентификационных заголовков
+    })
+
         .then(response => response.json())
         .then(data => {
             // Заполнение таблицы данными
@@ -562,7 +565,8 @@
         const userId = deleteModal.querySelector('#deleteUserId').value;
 
         fetch(`/api/v1/test/users/${userId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            credentials: 'include' // Эта опция включает отправку cookies и аутентификационных заголовков
         })
             .then(response => {
                 if (!response.ok) {
@@ -623,6 +627,7 @@
             // Отправляем запрос PUT на сервер
             fetch('/api/v1/test/users?id=' + id, { // Добавляем id пользователя как параметр запроса
                 method: 'PUT',
+                credentials: 'include', // Эта опция включает отправку cookies и аутентификационных заголовков
                 headers: {
                     'Content-Type': 'application/json',
                 },
