@@ -80,6 +80,13 @@ public class UserService implements UserDetailsService {
     @Transactional
     public User addNewUser(User user) {
 
+        Set<Role> rolesFinal = user.getRole().stream()
+                .flatMap(role2 -> roleRepo.findAll().stream()
+                        .filter(role1 -> role1.getName().equals(role2.getName()))
+                        .map(role1 -> new Role(role1.getId(), role1.getName())))
+                .collect(Collectors.toSet());
+
+        user.setRole(rolesFinal);
         user.setPass(passwordEncoder.encode(user.getPass()));
         userRepo.save(user);
         return user;

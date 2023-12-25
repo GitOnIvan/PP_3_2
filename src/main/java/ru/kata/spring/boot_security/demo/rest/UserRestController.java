@@ -48,36 +48,17 @@ public class UserRestController {
 
         return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
 
+    }
 
+    @PostMapping("/test/users")
+    public ResponseEntity<User> addNewUser(@RequestBody User user) {
+        return new ResponseEntity<>(userService.addNewUser(user), HttpStatus.OK);
 
     }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @GetMapping("/users/{userId}")
+    @GetMapping("/test/users/{userId}")
     public ResponseEntity<User> getById(@PathVariable("userId") long userId) {
 
         return new ResponseEntity<>(userService.findUsersById(userId), HttpStatus.OK);
@@ -85,11 +66,7 @@ public class UserRestController {
 
 
 
-    @PostMapping("/users")
-    public ResponseEntity<User> addNewUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.addNewUser(user), HttpStatus.OK);
 
-    }
 
 
 

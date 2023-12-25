@@ -81,90 +81,91 @@
                     </div>
                 </div>
                 <div class="tab-pane fade overflow-auto" id="content2" >
-                    <form class="needs-validation" novalidate th:method="post" th:action="@{/admin}" th:object="${newUser}">
+                    <form class="needs-validation" id="addUserForm" novalidate>
                         <div class="div-add-user">
                             <div class="form-floating mb-3">
 
-                                <input type="text" class="form-control" id="userNameA" placeholder="First Name"
-                                       th:field="*{firstName}"
-                                       required minlength="2" maxlength="30" pattern="[^0-9]*">
+                                <input type="text" class="form-control" id="addUserFirstName"
+                                       placeholder="First Name" required minlength="2" maxlength="30" pattern="[^0-9]*">
                                 <div class="invalid-feedback">
                                     The 'Name' should be between 2 and 30 characters long and should not contain numbers.
                                 </div>
-                                <label for="userNameA">First Name</label>
+                                <label for="addUserFirstName">First Name</label>
 
                             </div>
                             <div class="form-floating mb-3">
 
-                                <input type="text" class="form-control" id="userSurnameA" placeholder="Last Name"
-                                       th:field="*{lastName}"
-                                       required minlength="2" maxlength="30" pattern="[^0-9]*">
+                                <input type="text" class="form-control" id="addUserLastName"
+                                       placeholder="Last Name" required minlength="2" maxlength="30" pattern="[^0-9]*">
                                 <div class="invalid-feedback">
                                     The 'Last Name' should be between 2 and 30 characters long and should not contain numbers.
                                 </div>
-                                <label for="userSurnameA">Last Name</label>
+                                <label for="addUserLastName">Last Name</label>
 
                             </div>
                             <div class="form-floating mb-3">
 
-                                <input type="email" class="form-control" id="emailA" placeholder="Email"
-                                       th:field="*{email}" required  pattern="\S+" minlength="5" maxlength="30">
+                                <input type="email" class="form-control" id="addUserEmail"
+                                       placeholder="Email" required  pattern="\S+" minlength="5" maxlength="30">
                                 <div class="invalid-feedback">
                                     The 'Email' should be between 5 and 30 characters long and should not contain spaces.
                                 </div>
-                                <label for="emailA">Email</label>
+                                <label for="addUserEmail">Email</label>
 
                             </div>
                             <div class="form-floating mb-3">
 
-                                <input type="password" class="form-control" id="PasswordA" placeholder="Password"
-                                       th:field="*{pass}" required  pattern="\S+" minlength="4" maxlength="20">
+                                <input type="password" class="form-control" id="addUserPass"
+                                       placeholder="Password" required  pattern="\S+" minlength="4" maxlength="20">
                                 <div class="invalid-feedback">
                                     The 'Password' should be between 4 and 20 characters long and should not contain spaces.
                                 </div>
-                                <label for="PasswordA">Password</label>
+                                <label for="addUserPass">Password</label>
 
                             </div>
                             <div class="form-floating mb-3">
 
-                                <input type="number" class="form-control" id="userAgeA" placeholder="Age"
-                                       th:field="*{age}" required min="0" max="200">
+                                <input type="number" class="form-control" id="addUserAge"
+                                       placeholder="Age" required min="0" max="200">
                                 <div class="invalid-feedback">
                                     The 'Age' should be between 0 and 200.
                                 </div>
-                                <label for="userAgeA">Age</label>
+                                <label for="addUserAge">Age</label>
 
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="SexA" aria-label="Sex" th:field="*{gender}" required>
+                                <select class="form-select" id="addUserGender"
+                                        aria-label="Sex"  required>
                                     <option value="" disabled selected hidden>Choose User's gender</option>
-                                    <option th:value="F" value="F">Female</option>
-                                    <option th:value="M" value="F">Male</option>
+                                    <option value="F">Female</option>
+                                    <option value="F">Male</option>
 
                                 </select>
-                                <label for="SexA">Sex</label>
+                                <label for="addUserGender">Sex</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="StatusA" aria-label="Status" th:field="*{status}" required>
+                                <select class="form-select" id="addUserStatus"
+                                        aria-label="Status" required>
                                     <option value="" disabled selected hidden>Choose User's Status</option>
-                                    <option th:value="ACTIVE" value="BANNED">ACTIVE</option>
-                                    <option th:value="BANNED" value="ACTIVE">BANNED</option>
+                                    <option value="BANNED">ACTIVE</option>
+                                    <option value="ACTIVE">BANNED</option>
 
                                 </select>
-                                    <label for="StatusA">Status</label>
+                                    <label for="addUserStatus">Status</label>
                             </div>
 
                             <div class="form-floating mb-3">
-                                    <select class=" form-select role-custom" id="userRoleA" multiple th:field="*{role}" required>
-                                        <th:block th:each="role :${allRoles}">
-                                            <option th:text="${role.name}" th:value="${role.id}" ></option>
-                                        </th:block>
+                                    <select class=" form-select role-custom" id="addUserRole"
+                                            multiple required name="addUserRole">
+                                        <option value="ROLE_USER">USER</option>
+                                        <option value="ROLE_ADMIN">ADMIN</option>
+
                                     </select>
-                                    <label for="userRoleA" hidden="hidden">User roles</label>
+                                    <label for="addUserRole" hidden="hidden">User roles</label>
                             </div>
 
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-outline-primary">Add user</button>
+                                <button type="submit" class="btn btn-outline-primary" id="confirmAddUserButton">Add user</button>
                             </div>
                         </div>
                     </form>
@@ -657,6 +658,108 @@
 
     // Функция для обновления строки таблицы
     function updateTableRow(user) {
+        // Ищем строку таблицы по атрибуту data-user-id
+        const tr = document.querySelector(`tr[data-user-id="${user.id}"]`);
+        if (tr) {
+            const cells = tr.children;
+            // Обновляем данные в ячейках (td), предполагая, что порядок столбцов известен
+            cells[0].textContent = user.id;
+            cells[1].textContent = user.firstName;
+            cells[2].textContent = user.lastName;
+            cells[3].textContent = user.age;
+            cells[4].textContent = user.gender;
+            cells[5].textContent = user.email;
+            // Преобразуем массив ролей в строку и обновляем ячейку
+            cells[6].textContent = user.role.map(roleEntity => roleEntity.name.replace('ROLE_', '')).join(', ');
+
+            cells[7].textContent = user.status;
+
+
+        }
+    }
+
+
+
+    // Функция для создания нового пользователя
+
+    document.getElementById('addUserForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // предотвращаем стандартную отправку формы
+        if (!this.checkValidity()) {
+            event.stopPropagation(); // останавливаем всплытие события
+            this.classList.add('was-validated'); // добавляем класс для показа валидационных сообщений
+        } else {
+            // Получаем элементы формы в модальном окне
+            const addUser = document.getElementById('content2');
+
+            const firstName = addUser.querySelector('#addUserFirstName').value;
+            const lastName = addUser.querySelector('#addUserLastName').value;
+            const email = addUser.querySelector('#addUserEmail').value;
+            const pass = addUser.querySelector('#addUserPass').value;
+            const age = addUser.querySelector('#addUserAge').value;
+            const gender = addUser.querySelector('#addUserGender').value;
+            const roles = Array.from(addUser.querySelectorAll('select[name="addUserRole"] option:checked'), option => option.value);
+            const status = addUser.querySelector('#addUserStatus').value;
+
+
+            // Подготавливаем объект пользователя для отправки
+            const userData = {
+
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                pass: pass,
+                age: age,
+                gender: gender,
+                role: roles,
+                status: status
+
+
+            };
+
+
+            // Отправляем запрос POST на сервер
+            fetch('/api/v1/test/users', {
+                method: 'POST',
+                credentials: 'include', // Эта опция включает отправку cookies и аутентификационных заголовков
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData), // Преобразуем данные пользователя в JSON
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(updatedUser => {
+                    // Обновляем строку в таблице данными из ответа
+                    updateAddTableRow(updatedUser);
+                    // Переключаемся на первую вкладку
+                    switchToMainTab();
+                })
+                .catch(error => {
+                    console.error('Ошибка при обновлении пользователя:', error);
+                });
+
+        }
+        this.classList.add('was-validated'); // добавляем класс для показа валидационных сообщений
+    }, false);
+
+    function switchToMainTab() {
+        const mainTab = new bootstrap.Tab(document.querySelector('#tab1'));
+        mainTab.show(); // Показываем первую вкладку
+    }
+
+    const confirmAddButton = document.getElementById('confirmAddUserButton'); // Убедитесь, что у кнопки правильный id
+    confirmAddButton.addEventListener('click', function () {
+        const form = document.getElementById('editUserForm');
+        form.requestSubmit(); // инициируем отправку формы
+    });
+
+
+    // Функция для обновления строки таблицы
+    function updateAddTableRow(user) {
         // Ищем строку таблицы по атрибуту data-user-id
         const tr = document.querySelector(`tr[data-user-id="${user.id}"]`);
         if (tr) {
