@@ -44,7 +44,6 @@ public class UserController {
             userService.addRole((new Role("ROLE_USER")));
         }
 
-        model.addAttribute("allRoles", userService.findAll());
 
         UsernamePasswordAuthenticationToken authToken = (UsernamePasswordAuthenticationToken) principal;
         model.addAttribute("loggedUser", authToken);

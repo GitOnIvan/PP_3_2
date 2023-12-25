@@ -147,8 +147,8 @@
                                 <select class="form-select" id="addUserStatus"
                                         aria-label="Status" required>
                                     <option value="" disabled selected hidden>Choose User's Status</option>
-                                    <option value="BANNED">ACTIVE</option>
-                                    <option value="ACTIVE">BANNED</option>
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="BANNED">BANNED</option>
 
                                 </select>
                                     <label for="addUserStatus">Status</label>
@@ -392,6 +392,7 @@
 
         // Устанавливаем атрибут data-user-id для строки
         tr.setAttribute('data-user-id', userData.id);
+        tr.setAttribute('data-user-email', userData.email);
 
         // Колонка id
         const tdID = document.createElement('td');
@@ -758,26 +759,79 @@
     });
 
 
-    // Функция для обновления строки таблицы
+
+    // Функция для обновления строки таблицы или добавления новой строки
     function updateAddTableRow(user) {
-        // Ищем строку таблицы по атрибуту data-user-id
-        const tr = document.querySelector(`tr[data-user-id="${user.id}"]`);
-        if (tr) {
-            const cells = tr.children;
-            // Обновляем данные в ячейках (td), предполагая, что порядок столбцов известен
-            cells[0].textContent = user.id;
-            cells[1].textContent = user.firstName;
-            cells[2].textContent = user.lastName;
-            cells[3].textContent = user.age;
-            cells[4].textContent = user.gender;
-            cells[5].textContent = user.email;
-            // Преобразуем массив ролей в строку и обновляем ячейку
-            cells[6].textContent = user.role.map(roleEntity => roleEntity.name.replace('ROLE_', '')).join(', ');
+        let tr = document.querySelector(`tr[data-user-email="${user.email}"]`);
 
-            cells[7].textContent = user.status;
+        if (!tr) {
+            // Если строки с таким email нет, создаем новую
+            tr = document.createElement('tr');
+            tr.setAttribute('data-user-id', user.id);
+            tr.setAttribute('data-user-email', user.email);
 
 
+            // Создаем и добавляем ячейки для всех атрибутов пользователя
+            tr.appendChild(createCell(user.id));
+            tr.appendChild(createCell(user.firstName));
+            tr.appendChild(createCell(user.lastName));
+            tr.appendChild(createCell(user.age));
+            tr.appendChild(createCell(user.gender));
+            tr.appendChild(createCell(user.email));
+            tr.appendChild(createCell(user.role.map(roleEntity => roleEntity.name.replace('ROLE_', '')).join(', ')));
+            tr.appendChild(createCell(user.status));
+
+            // Колонка с кнопкой Редактировать
+            const tdEdit = document.createElement('td');
+            const btnEdit = document.createElement('button');
+            btnEdit.textContent = 'Edit';
+            btnEdit.className = 'btn btn-outline-success'; // Добавление классов Bootstrap
+            btnEdit.setAttribute('data-bs-toggle', 'modal');
+            btnEdit.setAttribute('data-bs-target', '#editModal');
+            btnEdit.dataset.id = user.id;
+            btnEdit.dataset.firstName = user.firstName;
+            btnEdit.dataset.lastName = user.lastName;
+            btnEdit.dataset.email = user.email;
+            btnEdit.dataset.age = user.age;
+            btnEdit.dataset.gender = user.gender;
+            btnEdit.dataset.status = user.status;
+
+            tdEdit.appendChild(btnEdit);
+            tr.appendChild(tdEdit);
+
+
+            // Колонка с кнопкой Удаллить
+            const tdDelete = document.createElement('td');
+            const btnDelete = document.createElement('button');
+            btnDelete.textContent = 'Delete';
+            btnDelete.className = 'btn btn-outline-danger'; // Добавление классов Bootstrap
+            btnDelete.setAttribute('data-bs-toggle', 'modal');
+            btnDelete.setAttribute('data-bs-target', '#deleteModal');
+            btnDelete.dataset.id = user.id;
+            btnDelete.dataset.firstName = user.firstName;
+            btnDelete.dataset.lastName = user.lastName;
+            btnDelete.dataset.email = user.email;
+            btnDelete.dataset.pass = user.pass;
+            btnDelete.dataset.age = user.age;
+            btnDelete.dataset.gender = user.gender;
+            btnDelete.dataset.status = user.status;
+            btnDelete.dataset.role = user.role.map(role => role.name.replace('ROLE_', '')).join(', ');
+
+            tdDelete.appendChild(btnDelete);
+            tr.appendChild(tdDelete);
+
+            // Добавляем эту строку в тело таблицы
+            const tbody = document.querySelector('#userTable tbody');
+            tbody.appendChild(tr);
         }
+    }
+
+
+    // Вспомогательная функция для создания ячейки таблицы (td) с текстом
+    function createCell(text) {
+        const td = document.createElement('td');
+        td.textContent = text;
+        return td; // Этот оператор вернет элемент td из функции
     }
 
 

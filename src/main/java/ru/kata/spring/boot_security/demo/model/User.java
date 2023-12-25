@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private long id;
 
     @Email(message = "Wrong email!")
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotEmpty(message = "Password should not be empty!")
