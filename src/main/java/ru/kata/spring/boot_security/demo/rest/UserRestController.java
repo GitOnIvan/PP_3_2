@@ -10,7 +10,6 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
 public class UserRestController {
 
     private final UserService userService;
@@ -21,20 +20,20 @@ public class UserRestController {
     }
 
 
-    @GetMapping("/test/user")
+    @GetMapping("/user/api/v1/user")
     public ResponseEntity<User> getByEmail(Principal principal) {
 
         return new ResponseEntity<>(userService.findUserByEmail(principal.getName()), HttpStatus.OK);
     }
 
 
-    @GetMapping("/test/users")
+    @GetMapping("/admin/api/v1/users")
     public ResponseEntity<List<User>> getUserList() {
 
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/test/users/{userId}")
+    @DeleteMapping("/admin/api/v1/users/{userId}")
     public String deleteUser(@PathVariable("userId") Long userId) {
         userService.deleteById(userId);
         return "User with ID " + userId + " was deleted!";
@@ -42,7 +41,7 @@ public class UserRestController {
     }
 
 
-    @PutMapping("/test/users")
+    @PutMapping("/admin/api/v1/users")
     public ResponseEntity<User> updateUser(@RequestBody User user, @RequestParam long id) {
 
 
@@ -50,7 +49,7 @@ public class UserRestController {
 
     }
 
-    @PostMapping("/test/users")
+    @PostMapping("/admin/api/v1/users")
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
 
         return new ResponseEntity<>(userService.addNewUser(user), HttpStatus.OK);
@@ -58,8 +57,7 @@ public class UserRestController {
     }
 
 
-
-    @GetMapping("/test/users/{userId}")
+    @GetMapping("/admin/api/v1/users/{userId}")
     public ResponseEntity<User> getById(@PathVariable("userId") long userId) {
 
         return new ResponseEntity<>(userService.findUsersById(userId), HttpStatus.OK);

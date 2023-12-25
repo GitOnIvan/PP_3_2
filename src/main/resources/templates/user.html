@@ -146,7 +146,9 @@
     }
 
     // Вызов fetch для получения данных
-    fetch('/api/v1/test/user')
+    fetch('/user/api/v1/user', {
+        credentials: 'include' // Эта опция включает отправку cookies и аутентификационных заголовков
+    })
         .then(response => response.json())
         .then(data => {
             // Заполнение таблицы данными

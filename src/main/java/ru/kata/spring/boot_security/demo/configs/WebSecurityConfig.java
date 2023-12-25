@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 //Изменить его потом на "/"
-                .antMatchers("/api/v1/**", "/index").permitAll()
+                .antMatchers("/", "/index").permitAll()
 
                 .anyRequest().authenticated()
                 .and()

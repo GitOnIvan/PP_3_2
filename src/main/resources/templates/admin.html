@@ -555,7 +555,7 @@
     }
 
     // Вызов fetch для получения данных
-    fetch('/api/v1/test/users', {
+    fetch('/admin/api/v1/users', {
         credentials: 'include' // Эта опция включает отправку cookies и аутентификационных заголовков
     })
 
@@ -576,7 +576,7 @@
         const deleteModal = document.getElementById('deleteModal');
         const userId = deleteModal.querySelector('#deleteUserId').value;
 
-        fetch(`/api/v1/test/users/${userId}`, {
+        fetch(`/admin/api/v1/users/${userId}`, {
             method: 'DELETE',
             credentials: 'include' // Эта опция включает отправку cookies и аутентификационных заголовков
         })
@@ -637,7 +637,7 @@
 
 
             // Отправляем запрос PUT на сервер
-            fetch('/api/v1/test/users?id=' + id, { // Добавляем id пользователя как параметр запроса
+            fetch('/admin/api/v1/users?id=' + id, { // Добавляем id пользователя как параметр запроса
                 method: 'PUT',
                 credentials: 'include', // Эта опция включает отправку cookies и аутентификационных заголовков
                 headers: {
@@ -729,7 +729,7 @@
 
 
             // Отправляем запрос POST на сервер
-            fetch('/api/v1/test/users', {
+            fetch('/admin/api/v1/users', {
                 method: 'POST',
                 credentials: 'include', // Эта опция включает отправку cookies и аутентификационных заголовков
                 headers: {

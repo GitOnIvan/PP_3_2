@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepo;
 import ru.kata.spring.boot_security.demo.repository.UserRepo;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Collection;
@@ -44,7 +45,7 @@ public class User implements UserDetails {
 
     @NotNull(message = "The 'Age' should not be empty!")
     @PositiveOrZero(message = "The 'Age' should be between 0 and 200")
-    @Max(value=200, message="The 'Age' should be between 0 and 200")
+    @Max(value = 200, message = "The 'Age' should be between 0 and 200")
     @Column(name = "age")
     private Integer age;
 
@@ -64,7 +65,6 @@ public class User implements UserDetails {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "status")
     private Status status;
-
 
 
     @Override
