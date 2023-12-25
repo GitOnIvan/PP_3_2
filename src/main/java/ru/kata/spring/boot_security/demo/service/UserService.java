@@ -78,19 +78,26 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public User addNewUser(User user) {
+    public User addNewUser(User user) throws RuntimeException {
 
-        Set<Role> rolesFinal = user.getRole().stream()
-                .flatMap(role2 -> roleRepo.findAll().stream()
-                        .filter(role1 -> role1.getName().equals(role2.getName()))
-                        .map(role1 -> new Role(role1.getId(), role1.getName())))
-                .collect(Collectors.toSet());
+        if ((userRepo.findUserByEmail(user.getEmail())) == null) {
+            Set<Role> rolesFinal = user.getRole().stream()
+                    .flatMap(role2 -> roleRepo.findAll().stream()
+                            .filter(role1 -> role1.getName().equals(role2.getName()))
+                            .map(role1 -> new Role(role1.getId(), role1.getName())))
+                    .collect(Collectors.toSet());
 
-        user.setRole(rolesFinal);
-        user.setPass(passwordEncoder.encode(user.getPass()));
-        userRepo.save(user);
-        return user;
+            user.setRole(rolesFinal);
+            user.setPass(passwordEncoder.encode(user.getPass()));
+            userRepo.save(user);
+            return user;
+        } else {
+            throw new RuntimeException("User is already exists!!!");
+        }
+
+
     }
+
 
     @Transactional
     public void deleteById(Long id) {

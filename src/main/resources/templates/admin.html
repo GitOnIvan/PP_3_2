@@ -363,6 +363,16 @@
 
 <script>
 
+    //очистка формы создания нового пользователя
+    const tabEl = document.querySelector('#tab2'); // замените на реальный селектор вкладки
+
+    tabEl.addEventListener('show.bs.tab', function () {
+        const form = document.getElementById('addUserForm');
+        form.reset(); // Сбросить все поля формы
+        form.classList.remove('was-validated'); // Удалить класс валидации, если он есть
+        // Также можно очистить отдельные сообщения валидации, если они есть
+    });
+
 
 
 

@@ -52,6 +52,7 @@ public class UserRestController {
 
     @PostMapping("/test/users")
     public ResponseEntity<User> addNewUser(@RequestBody User user) {
+
         return new ResponseEntity<>(userService.addNewUser(user), HttpStatus.OK);
 
     }
