@@ -113,11 +113,14 @@ public class UserService {
     @Transactional
     public User updateUser(long id, User updatedUser) {
 
-        if ((userRepo.findUserByEmail(updatedUser.getEmail())) == null) {
+        if ((userRepo.findUserByEmail(updatedUser.getEmail()).getId() != id)
+                && (userRepo.findUserByEmail(updatedUser.getEmail()) != null)) {
 
+            throw new EntityExistsException("User is already exists!!!");
+
+        } else {
 
             User userToBeUpdate = userRepo.findUsersById(id);
-
 
             Set<Role> rolesFinal = updatedUser.getRole().stream()
                     .flatMap(role2 -> roleRepo.findAll().stream()
@@ -134,11 +137,12 @@ public class UserService {
             userToBeUpdate.setPass(passwordEncoder.encode(updatedUser.getPass()));
             userToBeUpdate.setRole(rolesFinal);
             userToBeUpdate.setStatus(updatedUser.getStatus());
-            return userToBeUpdate;
 
-        } else {
-            throw new EntityExistsException("User is already exists!!!");
+            return userToBeUpdate;
         }
+
+
+
 
 
     }
