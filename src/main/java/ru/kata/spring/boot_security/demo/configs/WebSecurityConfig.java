@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UserServiceDetailsImpl;
 
 
 @Configuration
@@ -18,13 +18,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordConfig passwordConfig;
     private final SuccessUserHandler successUserHandler;
-    private final UserService userService;
+    private final UserServiceDetailsImpl serviceDetails;
 
-    @Autowired
-    public WebSecurityConfig(PasswordConfig passwordConfig, SuccessUserHandler successUserHandler, UserService userService) {
+
+    public WebSecurityConfig(PasswordConfig passwordConfig, SuccessUserHandler successUserHandler, UserServiceDetailsImpl serviceDetails) {
         this.passwordConfig = passwordConfig;
         this.successUserHandler = successUserHandler;
-        this.userService = userService;
+        this.serviceDetails = serviceDetails;
     }
 
     @Override
@@ -33,11 +33,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
 
-                //Изменить его потом на "/"
+
                 .antMatchers("/").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successUserHandler)
@@ -52,32 +51,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-//    @Bean
-//    public DaoAuthenticationProvider authenticationProvider() {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-//        provider.setPasswordEncoder(passwordConfig.passwordEncoder());
-//        provider.setUserDetailsService(userService);
-//
-//        return provider;
-//    }
-//
-//    @Autowired
-//    public void configureInMemoryAuthentication(AuthenticationManagerBuilder auth) throws Exception
-//    {
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("$2a$12$vpY721heyk3bVh7xVuiGxuOT9e1ZpsdDS6bo3SMwuw.9yv.FLl22e")
-//                .roles("ADMIN");
-//
-//
-//    }
 
     @Override
     @Autowired
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordConfig.passwordEncoder());
-        provider.setUserDetailsService(userService);
+        provider.setUserDetailsService(serviceDetails);
 
         auth.authenticationProvider(provider);
 

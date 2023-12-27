@@ -7,7 +7,7 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
-import java.util.List;
+
 
 @RestController
 public class UserRestController {
@@ -27,41 +27,6 @@ public class UserRestController {
     }
 
 
-    @GetMapping("/admin/api/v1/users")
-    public ResponseEntity<List<User>> getUserList() {
-
-        return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
-    }
-
-    @DeleteMapping("/admin/api/v1/users/{userId}")
-    public String deleteUser(@PathVariable("userId") Long userId) {
-        userService.deleteById(userId);
-        return "User with ID " + userId + " was deleted!";
-
-    }
-
-
-    @PutMapping("/admin/api/v1/users")
-    public ResponseEntity<User> updateUser(@RequestBody User user, @RequestParam long id) {
-
-
-        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
-
-    }
-
-    @PostMapping("/admin/api/v1/users")
-    public ResponseEntity<User> addNewUser(@RequestBody User user) {
-
-        return new ResponseEntity<>(userService.addNewUser(user), HttpStatus.OK);
-
-    }
-
-
-    @GetMapping("/admin/api/v1/users/{userId}")
-    public ResponseEntity<User> getById(@PathVariable("userId") long userId) {
-
-        return new ResponseEntity<>(userService.findUsersById(userId), HttpStatus.OK);
-    }
 
 
 
